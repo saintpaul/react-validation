@@ -1,6 +1,6 @@
 {
   "name": "react-validation",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "ReactJs validation component",
   "main": "./lib/js/index.js",
   "scripts": {
@@ -18,11 +18,11 @@
   "homepage": "https://github.com/saintpaul/react-validation#readme",
   "dependencies": {
     "async-validate": "0.13.1",
-    "aggregation": "^0.9.7",
     "classnames": "^2.2.0",
     "lodash": "^4.5.1",
     "react": "^0.14.8",
     "react-dom": "^0.14.8",
+    "react-reflux-component": "git://github.com/saintpaul/react-reflux-component",
     "reflux": "^0.3.0"
   },
   "devDependencies": {
@@ -45,10 +45,8 @@
     "gulp-flatten": "~0.0.2",
     "gulp-foreach": "*",
     "gulp-if": "1.2.5",
-    "gulp-jshint": "~1.9.1",
     "gulp-notify": "~2.2.0",
     "gulp-rename": "1.2.0",
-    "gulp-sass": "^2.3.2",
     "gulp-sourcemaps": "^1.6.0",
     "gulp-streamify": "0.0.4",
     "gulp-uglify": "~1.1.0",

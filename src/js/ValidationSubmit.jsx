@@ -1,11 +1,11 @@
 const React = require('react');
-const aggregation = require("aggregation");
+const RefluxComponent = require("react-reflux-component");
+const _ = require("lodash");
 
-const RefluxListener = require('./utils/RefluxListener');
 const ValidationStore = require('./stores/ValidationStore');
 
 // TODO RCH : add a spinner icon on this component until validation is not over
-class ValidationSubmit extends aggregation(React.Component, RefluxListener) {
+class ValidationSubmit extends RefluxComponent {
 
     constructor(props) {
         super(props);
@@ -13,6 +13,15 @@ class ValidationSubmit extends aggregation(React.Component, RefluxListener) {
         this.state = { };
         this.listenToStore(ValidationStore, this.onSuccess)
     }
+
+    _cleanProps = () => {
+        let newProps = _.clone(this.props);
+        delete newProps.onClick;
+        delete newProps.onSuccess;
+        delete newProps.renderFactory;
+
+        return newProps;
+    };
 
     onSuccess = (errors) => {
         this.props.onSuccess(errors);
@@ -28,9 +37,14 @@ class ValidationSubmit extends aggregation(React.Component, RefluxListener) {
             this.props.onSuccess();
     };
 
-    render = () => (
-        <button {...this.props} onClick={this.submit}/>
-    );
+    render = () => {
+        let newProps = this._cleanProps();
+
+        return this.props.renderFactory ?
+            this.props.renderFactory(_.merge(newProps, { onClick: this.submit })) :
+            <button {...newProps} onClick={this.submit}/>;
+    }
+
 }
 
 ValidationSubmit.defaultProps = {
@@ -39,7 +53,8 @@ ValidationSubmit.defaultProps = {
 
 ValidationSubmit.propsType = {
     onClick:        React.PropTypes.func,
-    onSuccess:      React.PropTypes.func.isRequired
+    onSuccess:      React.PropTypes.func.isRequired,
+    renderFactory:  React.PropTypes.func
 };
 
 module.exports = ValidationSubmit;

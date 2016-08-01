@@ -1,9 +1,8 @@
 const React = require('react');
-const aggregation = require("aggregation");
+const RefluxComponent = require("react-reflux-component");
 const classnames = require("classnames");
 const _ = require('lodash');
 
-const RefluxListener = require('./utils/RefluxListener');
 const ValidationUtils = require('./utils/ValidationUtils');
 
 const ValidationStore = require('./stores/ValidationStore');
@@ -20,7 +19,7 @@ const SUPPORTED_VALUE_PROPS = {
  * Wraps an input field and apply some rules on it. According to rules, it will display an error message.
  * This component is based on https://github.com/tmpfs/async-validate project
  */
-class ValidationField extends aggregation(React.Component, RefluxListener) {
+class ValidationField extends RefluxComponent {
 
     constructor(props) {
         super(props);
