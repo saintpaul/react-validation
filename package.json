@@ -22,7 +22,7 @@
     "lodash": "^4.5.1",
     "react": "^0.14.8",
     "react-dom": "^0.14.8",
-    "react-reflux-component": "git://github.com/saintpaul/react-reflux-component",
+    "react-commons": "git://github.com/saintpaul/react-commons",
     "reflux": "^0.3.0"
   },
   "devDependencies": {

@@ -1,5 +1,5 @@
 const React = require('react');
-const RefluxComponent = require("react-reflux-component");
+const { RefluxComponent } = require("react-commons");
 const _ = require("lodash");
 
 const ValidationStore = require('./stores/ValidationStore');

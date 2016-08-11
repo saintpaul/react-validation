@@ -1,5 +1,5 @@
 const React = require('react');
-const RefluxComponent = require("react-reflux-component");
+const { RefluxComponent } = require("react-commons");
 const classnames = require("classnames");
 const _ = require('lodash');
 
