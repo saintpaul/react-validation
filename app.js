@@ -11,12 +11,14 @@ class Demo extends React.Component {
 
         this.state = {
             character: "",
+            nickname: "",
             level: "",
             spell: ""
         }
     }
 
     onChangeCharacter = (value) => this.setState({ character: value });
+    onChangeNickname = (value) => this.setState({ nickname: value });
     onChangeLevel = (value) => this.setState({ level: value });
     onChangeSpell = (value) => this.setState({ spell: value });
 
@@ -36,12 +38,17 @@ class Demo extends React.Component {
             Demo page
             <br/>
             <br/>
-            <label>Character name : </label>
+            <label>Character name (required) : </label>
             <ValidationField name="character" rules={{ required: true }}>
                 <input type="text" value={this.state.character} onChange={this.onChangeCharacter}/>
             </ValidationField>
             <br/>
-            <label>Level : </label>
+            <label>Nickname (max: 6 chars): </label>
+            <ValidationField name="counted" rules={{ required: true, max: 6 }} count>
+                <input type="text" value={this.state.nickname} onChange={this.onChangeNickname}/>
+            </ValidationField>
+            <br/>
+            <label>Level (min 1) : </label>
             <ValidationField name="level" rules={{ required: true, type: "number", min: 1 }}>
                 <input type="text" value={this.state.level} onChange={this.onChangeLevel}/>
             </ValidationField>

@@ -20,8 +20,7 @@ var sassTask = function(exit, options) {
         .pipe(gulpif(options.sourceMaps, sourcemaps.init()))
         .pipe(sass({
             outputStyle: gulpif(options.compress, "compressed", "nested"),
-            precision: 10,
-            includePaths: [global.bootstrapPath+'stylesheets/', global.fontawesomePath+'scss/', global.foundationPath+'scss/']
+            precision: 10
         }))
         .on('error', handleErrors)
         .on('error', exitProcess(exit))

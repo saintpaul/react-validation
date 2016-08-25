@@ -80,6 +80,8 @@ class ValidationField extends RefluxComponent {
     getInputValue = () => this.getInput().props[this.getValueProp()]; // Get input value depending on input child
     getInputOnChange = () => this.getInput().props.onChange;
     getInputOnBlur = () => this.getInput().props.onBlur;
+    getRule = (rule) => _.get(this.props.rules, rule) || _.get(_.find(this.props.rules, (r) => _.has(r, rule)), rule);
+    hasRuleType = (ruleType) => _.find(this.props.rules, (rule) => rule === ruleType || rule.type === ruleType);
 
     // TODO RCH : use SUPPORTED_VALUE_PROPS if possible
     getInputValueFromEvent = (e) => {
@@ -171,25 +173,14 @@ class ValidationField extends RefluxComponent {
         var convertedValue = inputValue;
         // Try to convert input value according to his rule's type
         // TODO RCH : maybe it can be improved by using "transform" property from async-validate lib
-        if(this.rulesIsArray()) {
-            if (_.find(this.props.rules, (rule) => rule.type === "integer"))
-                convertedValue = ValidationUtils.toInteger(inputValue);
-            else if (_.find(this.props.rules, (rule) => rule.type === "float" || rule.type === "number"))
-                convertedValue = ValidationUtils.toFloat(inputValue);
-            else if (_.find(this.props.rules, (rule) => rule.type === "string"))
-                convertedValue = ValidationUtils.toString(inputValue);
-            else if (_.find(this.props.rules, (rule) => rule.type === "boolean"))
-                convertedValue = ValidationUtils.toBoolean(inputValue);
-        } else {
-            if (this.props.rules.type === "integer")
-                convertedValue = ValidationUtils.toInteger(inputValue);
-            else if (this.props.rules.type === "float" || this.props.rules.type === "number")
-                convertedValue = ValidationUtils.toFloat(inputValue);
-            else if (this.props.rules.type === "string")
-                convertedValue = ValidationUtils.toString(inputValue);
-            else if (this.props.rules.type === "boolean")
-                convertedValue = ValidationUtils.toBoolean(inputValue);
-        }
+        if(this.hasRuleType("integer"))
+            convertedValue = ValidationUtils.toInteger(inputValue);
+        else if(this.hasRuleType("float") || this.hasRuleType("number"))
+            convertedValue = ValidationUtils.toFloat(inputValue);
+        else if(this.hasRuleType("string"))
+            convertedValue = ValidationUtils.toString(inputValue);
+        else if(this.hasRuleType("boolean"))
+            convertedValue = ValidationUtils.toBoolean(inputValue);
 
         return convertedValue;
     };
@@ -200,17 +191,10 @@ class ValidationField extends RefluxComponent {
      * - validate a required array with "[]" will return true
      */
     convertSpecialCases = (inputValue) => {
-        var convertedValue = inputValue;
-        if (this.rulesIsArray()) {
-            if (_.find(this.props.rules, (rule) => rule.type === "array") && _.isEmpty(inputValue) ||
-               (_.find(this.props.rules, (rule) => rule.type === "object") && _.isEmpty(inputValue)))
-                convertedValue = undefined
-        } else {
-            if (this.props.rules.type === "array" && _.isEmpty(inputValue) ||
-               (this.props.rules.type === "object" && _.isEmpty(inputValue)))
-                convertedValue = undefined;
-        }
-        return convertedValue;
+        if (_.isEmpty(inputValue) && (this.hasRuleType("array") || this.hasRuleType("object")))
+            return undefined;
+        else
+            return inputValue;
     };
 
     forceValidate = () => {
@@ -221,6 +205,17 @@ class ValidationField extends RefluxComponent {
         // Validate this input only if it appears into list of fields to validate
         if(_.find(fieldNames, (name) => name === this.props.name))
             this.validate(this.convertValue(this.getInputValue()));
+    };
+
+    renderCount = () => {
+        var value = this.getInputValue();
+        var count = value ? this.hasRuleType("integer") ? value : value.length : 0;
+        let maxCountReached = count >= this.getRule("max");
+        return (
+            <span className={ classnames("validation-field-count", { "max-count-reached": maxCountReached }) }>
+                { count }
+            </span>
+        );
     };
 
     render = () => {
@@ -238,8 +233,9 @@ class ValidationField extends RefluxComponent {
         let inputWithLabel = <label>{ input } <span dangerouslySetInnerHTML={{__html: this.props.label }}/> </label>;
 
         return (
-            <div className={classnames({"has-error": this.state.error})}>
+            <div className={classnames("validation-field", {"has-error": this.state.error})}>
                 { this.props.label ? inputWithLabel : input }
+                { this.props.count ? this.renderCount() : null }
                 { this.state.error ?
                     <div className="validation-field-error">
                         { this.state.error }
@@ -253,7 +249,8 @@ class ValidationField extends RefluxComponent {
 ValidationField.defaultProps = {
     rules: {},
     onError : () => {},
-    onBlur: false
+    onBlur: false,
+    count: false
 };
 
 ValidationField.propTypes = {
@@ -262,7 +259,8 @@ ValidationField.propTypes = {
     rules: React.PropTypes.oneOfType([ React.PropTypes.arrayOf(React.PropTypes.object), React.PropTypes.object ]).isRequired, // List of rules, see
     triggerFields: React.PropTypes.oneOfType([ React.PropTypes.array, React.PropTypes.string ]), // Field or list of field for which validation should be triggered when this component is changing
     onError: React.PropTypes.func,
-    onBlur: React.PropTypes.bool // If true, validation will be triggered during onBlur event as well
+    onBlur: React.PropTypes.bool, // If true, validation will be triggered during onBlur event as well
+    count: React.PropTypes.bool // If true, display a counter on the field.
 };
 
 module.exports = ValidationField;
