@@ -51,7 +51,7 @@ ValidationSubmit.defaultProps = {
     onClick: () => {}
 };
 
-ValidationSubmit.propsType = {
+ValidationSubmit.propTypes = {
     onClick:        React.PropTypes.func,
     onSuccess:      React.PropTypes.func.isRequired,
     renderFactory:  React.PropTypes.func

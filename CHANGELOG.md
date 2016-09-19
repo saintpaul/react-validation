@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.0.4
+**Bug fixes**
+- Fix "propTypes" typo
+
 ## 1.0.3
 **features**
 - Add support for 'count' property (display a counter with number of typed characters) 
