@@ -41,8 +41,11 @@ var ValidationStore = Reflux.createStore({
 
     addField(name, rules) {
         // Add field only if it's not already there
-        if(!this.fields[name])
+        if(this.fields[name]) {
+            console.error(`A field with name ${name} already exists, please find another name`);
+        } else {
             this.fields[name] = {rules: rules};
+        }
     },
 
     removeField(name) {
@@ -52,7 +55,7 @@ var ValidationStore = Reflux.createStore({
     validateField(name, value, callback = () => {}) {
         var field = this.fields[name];
         if(!field) {
-            console.error("Cannot find field '", name, "' into ValidationStore");
+            console.error(`Cannot find field ${name} into ValidationStore`);
             return null;
         }
 

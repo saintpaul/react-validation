@@ -8,7 +8,7 @@ require('./gulp/sass');
 require('./gulp/browserify');
 
 gulp.task('clean', function (cb) {
-    del(['./build/*'], cb);
+    del(['./demo/build/*'], cb);
 });
 
 gulp.task('clean-test', function (cb) {
@@ -19,7 +19,7 @@ gulp.task('serve', function() {
 
     connect.server({
         port:8111,
-        root: './build',
+        root: './demo/build',
         livereload: {
             port: 35111
         }
@@ -28,15 +28,15 @@ gulp.task('serve', function() {
 });
 
 gulp.task('html', function(){
-    gulp.src('./src/**/*.html')
-        .pipe(gulp.dest('./build/'))
+    gulp.src('./demo/index.html')
+        .pipe(gulp.dest('./demo/build/'))
         .pipe(connect.reload());
 });
 
 gulp.task('watch', ['watchify'], function(cb) {
     gulp.watch(['./src/js/**/*.js', './src/js/**/*.jsx'], ['lint-dev']);
     gulp.watch(['./src/css/**/*.scss'], ['sass-dev']);
-    gulp.watch('./src/*.html', ['html']);
+    gulp.watch('./demo/index.html', ['html']);
     cb();
 });
 

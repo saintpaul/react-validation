@@ -1,7 +1,7 @@
 const React = require('react');
 const ReactDom = require('react-dom');
-const ValidationField = require('./src/js/ValidationField');
-const ValidationSubmit = require('./src/js/ValidationSubmit');
+const ValidationField = require('../src/js/ValidationField');
+const ValidationSubmit = require('../src/js/ValidationSubmit');
 
 
 class Demo extends React.Component {

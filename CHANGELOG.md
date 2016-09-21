@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.0.5
+**features**
+- Display an error if 2 ValidationFields are declared with the same value
+
 ## 1.0.4
 **Bug fixes**
 - Fix "propTypes" typo
