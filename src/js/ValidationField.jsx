@@ -237,9 +237,7 @@ class ValidationField extends RefluxComponent {
                 { this.props.label ? inputWithLabel : input }
                 { this.props.count ? this.renderCount() : null }
                 { this.state.error ?
-                    <div className="validation-field-error">
-                        { this.state.error }
-                    </div> : null
+                    <div className="validation-field-error" dangerouslySetInnerHTML={{__html: this.state.error}}></div> : null
                 }
             </div>
         )

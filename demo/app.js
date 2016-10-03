@@ -21,6 +21,7 @@ class Demo extends React.Component {
     onChangeNickname = (value) => this.setState({ nickname: value });
     onChangeLevel = (value) => this.setState({ level: value });
     onChangeSpell = (value) => this.setState({ spell: value });
+    onChangeAvatarUrl = (value) => this.setState({ avatarUrl : value });
 
     onSubmit = (errors) => {
         let displayErrors = errors ? JSON.stringify(errors) : "No errors";
@@ -58,6 +59,10 @@ class Demo extends React.Component {
                 <input type="text" value={this.state.spell} onChange={this.onChangeSpell}/>
             </ValidationField>
             <br/>
+            <label>Avatar URL : </label>
+            <ValidationField name="avatarUrl" rules={{ required: true, type: "string", message: "<a href='http://www.google.fr'> No idea ? Google is your friend</a>" }}>
+                <input type="text" value={this.state.avatarUrl} onChange={this.onChangeAvatarUrl}/>
+            </ValidationField>
             <ValidationSubmit onSuccess={this.onSubmit}>SUBMIT</ValidationSubmit>
         </div>
     );

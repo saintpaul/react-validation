@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.0.6
+**features**
+- Error message now support HTML
+
 ## 1.0.5
 **features**
 - Display an error if 2 ValidationFields are declared with the same value
