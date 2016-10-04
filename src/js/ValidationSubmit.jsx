@@ -38,10 +38,10 @@ class ValidationSubmit extends RefluxComponent {
     };
 
     render = () => {
-        let newProps = this._cleanProps();
+        let newProps = _.merge(this._cleanProps(), { onClick: this.submit });
 
         return this.props.renderFactory ?
-            this.props.renderFactory(_.merge(newProps, { onClick: this.submit })) :
+            this.props.renderFactory(newProps) :
             <button {...newProps} onClick={this.submit}/>;
     }
 

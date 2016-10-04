@@ -1,5 +1,12 @@
 # Change Log
 
+## 1.1.0
+**technical improvements**
+- Remove warning in the console (bsStyle invalid prop)
+
+**features**
+- Rename confusing 'onBlur' prop to 'triggerOnBlur'
+
 ## 1.0.6
 **features**
 - Error message now support HTML

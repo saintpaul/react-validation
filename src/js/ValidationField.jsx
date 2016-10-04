@@ -79,7 +79,7 @@ class ValidationField extends RefluxComponent {
     getInput = () => this.props.children;
     getInputValue = () => this.getInput().props[this.getValueProp()]; // Get input value depending on input child
     getInputOnChange = () => this.getInput().props.onChange;
-    getInputOnBlur = () => this.getInput().props.onBlur;
+    getInputOnBlur = () => this.getInput().props.triggerOnBlur;
     getRule = (rule) => _.get(this.props.rules, rule) || _.get(_.find(this.props.rules, (r) => _.has(r, rule)), rule);
     hasRuleType = (ruleType) => _.find(this.props.rules, (rule) => rule === ruleType || rule.type === ruleType);
 
@@ -169,6 +169,7 @@ class ValidationField extends RefluxComponent {
         }
     };
 
+    // TODO RCH : ideally, we should return "" instead of undefined to avoid warning in the console
     convertValue = (inputValue) => {
         var convertedValue = inputValue;
         // Try to convert input value according to his rule's type
@@ -226,8 +227,7 @@ class ValidationField extends RefluxComponent {
 
         var newProps = _.merge(
             { onChange : this.onChange },
-            this.props.onBlur   ? { onBlur  : this.onBlur } : {},
-            this.state.error    ? { bsStyle : "error" } : {}
+            this.props.triggerOnBlur ? { onBlur: this.onBlur } : {}
         );
         let input = React.cloneElement(this.getInput(), newProps);
         let inputWithLabel = <label>{ input } <span dangerouslySetInnerHTML={{__html: this.props.label }}/> </label>;
@@ -254,10 +254,10 @@ ValidationField.defaultProps = {
 ValidationField.propTypes = {
     name: React.PropTypes.string.isRequired,
     label: React.PropTypes.string,
-    rules: React.PropTypes.oneOfType([ React.PropTypes.arrayOf(React.PropTypes.object), React.PropTypes.object ]).isRequired, // List of rules, see
+    rules: React.PropTypes.oneOfType([ React.PropTypes.arrayOf(React.PropTypes.object), React.PropTypes.object ]).isRequired, // List of rules, see https://github.com/tmpfs/async-validate#rules
     triggerFields: React.PropTypes.oneOfType([ React.PropTypes.array, React.PropTypes.string ]), // Field or list of field for which validation should be triggered when this component is changing
     onError: React.PropTypes.func,
-    onBlur: React.PropTypes.bool, // If true, validation will be triggered during onBlur event as well
+    triggerOnBlur: React.PropTypes.bool, // If true, validation will be triggered during onBlur event as well
     count: React.PropTypes.bool // If true, display a counter on the field.
 };
 

@@ -11,13 +11,16 @@ class Demo extends React.Component {
 
         this.state = {
             character: "",
+            description: "",
             nickname: "",
             level: "",
-            spell: ""
+            spell: "",
+            avatarUrl: ""
         }
     }
 
     onChangeCharacter = (value) => this.setState({ character: value });
+    onChangeDescription = (value) => this.setState({ description: value });
     onChangeNickname = (value) => this.setState({ nickname: value });
     onChangeLevel = (value) => this.setState({ level: value });
     onChangeSpell = (value) => this.setState({ spell: value });
@@ -40,8 +43,13 @@ class Demo extends React.Component {
             <br/>
             <br/>
             <label>Character name (required) : </label>
-            <ValidationField name="character" rules={{ required: true }}>
+            <ValidationField name="character" rules={{ required: true, message: "<a href='http://www.google.fr'> No idea ? Google is your friend</a>" }}>
                 <input type="text" value={this.state.character} onChange={this.onChangeCharacter}/>
+            </ValidationField>
+            <br/>
+            <label>Description (default rule, trigger on blur)</label>
+            <ValidationField name="description" triggerOnBlur>
+                <input type="text" value={this.state.description} onChange={this.onChangeDescription}/>
             </ValidationField>
             <br/>
             <label>Nickname (max: 6 chars): </label>
@@ -49,19 +57,19 @@ class Demo extends React.Component {
                 <input type="text" value={this.state.nickname} onChange={this.onChangeNickname}/>
             </ValidationField>
             <br/>
-            <label>Level (min 1) : </label>
+            <label>Level (number, min 1) : </label>
             <ValidationField name="level" rules={{ required: true, type: "number", min: 1 }}>
                 <input type="text" value={this.state.level} onChange={this.onChangeLevel}/>
             </ValidationField>
             <br/>
-            <label>Spell : </label>
+            <label>Spell : (should start with 'fire')</label>
             <ValidationField name="spell" rules={[ { required: true, type: "string" }, { validator: (val, callback) => this.validateSpell(val, callback) } ]}>
                 <input type="text" value={this.state.spell} onChange={this.onChangeSpell}/>
             </ValidationField>
             <br/>
-            <label>Avatar URL : </label>
-            <ValidationField name="avatarUrl" rules={{ required: true, type: "string", message: "<a href='http://www.google.fr'> No idea ? Google is your friend</a>" }}>
-                <input type="text" value={this.state.avatarUrl} onChange={this.onChangeAvatarUrl}/>
+            <label>Avatar URL : (should starts with 'http://')</label>
+            <ValidationField name="avatarUrl" rules={{ required: true, type: "string", pattern: /^http:\/\/.*$/ }}>
+                <input type="text" value={this.state.avatarUrl} onChange={this.onChangeAvatarUrl} onBlur={ () => console.log('hey') }/>
             </ValidationField>
             <ValidationSubmit onSuccess={this.onSubmit}>SUBMIT</ValidationSubmit>
         </div>
