@@ -79,7 +79,7 @@ class ValidationField extends RefluxComponent {
     getInput = () => this.props.children;
     getInputValue = () => this.getInput().props[this.getValueProp()]; // Get input value depending on input child
     getInputOnChange = () => this.getInput().props.onChange;
-    getInputOnBlur = () => this.getInput().props.triggerOnBlur;
+    getInputOnBlur = () => this.getInput().props.onBlur;
     getRule = (rule) => _.get(this.props.rules, rule) || _.get(_.find(this.props.rules, (r) => _.has(r, rule)), rule);
     hasRuleType = (ruleType) => _.find(this.props.rules, (rule) => rule === ruleType || rule.type === ruleType);
 
@@ -108,7 +108,7 @@ class ValidationField extends RefluxComponent {
     };
 
     onChange = (e) => this._onChange(e, this.getInputOnChange());
-    onBlur = (e) => this._onChange(e, this.getInputOnBlur());
+    onBlur = (e) => this._onChange(this.getInputValue(), this.getInputOnBlur()); // Event blur will not return any target value so we return input value directly
 
     validate = (inputValue, callback = () => { } ) => {
         // Trigger validation on others fields if needed

@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.1.1
+**bug fixes**
+- Fix issue when validating a field during 'onBlur' event
+
 ## 1.1.0
 **technical improvements**
 - Remove warning in the console (bsStyle invalid prop)
