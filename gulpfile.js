@@ -27,6 +27,12 @@ gulp.task('serve', function() {
 
 });
 
+gulp.task('fonts',  function(cb){
+    gulp.src('./src/fonts/**/*.{eot,svg,ttf,woff,woff2}')
+        .pipe(gulp.dest('./demo/build/fonts/'));
+    cb();
+});
+
 gulp.task('html', function(){
     gulp.src('./demo/index.html')
         .pipe(gulp.dest('./demo/build/'))
@@ -44,7 +50,7 @@ gulp.task('default', function(cb){
     runSequence(
         'clean',
         'lint-dev',
-        ['sass-dev', 'html'],
+        ['sass-dev', 'html', 'fonts'],
         'watch',
         'serve',
         cb

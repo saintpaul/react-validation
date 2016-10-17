@@ -1,5 +1,14 @@
 # Change Log
 
+## 2.0.0
+**features**
+NO BREAKING CHANGES, ONLY LAYOUT CHANGES
+- Change global layout of validation field
+- Display a "valid" and "error" icon on each validation field
+- Error message is now displayed on over "error" icon
+- Add SCSS files
+- Add external dependencies (font-awesome + react-tooltip)
+
 ## 1.1.1
 **bug fixes**
 - Fix issue when validating a field during 'onBlur' event

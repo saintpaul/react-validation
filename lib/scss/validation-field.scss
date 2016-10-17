@@ -1,0 +1,122 @@
+// Colors
+$validation-field-error-color: red !default;
+$validation-field-error-border-color: rgba(red, 0.6) !default;
+$validation-field-success-color: green !default;
+$validation-field-success-border-color: rgba(green, 0.3) !default;
+$validation-field-mobile-media-query: screen and (max-width: 400px) !default;
+$validation-field-tooltip-bg-color: #414A55 !default;
+
+// Sizing
+$validation-field-tooltip-font-size: 16px !default;
+
+// Others
+$validation-field-icon-z-index: 3 !default;
+
+
+@mixin validation-status($color, $border-color, $icon) {
+
+  // Input field inside validation-field
+  input,
+  input[type="text"],
+  input[type="password"],
+  input[type="text"]:focus,
+  input[type="password"]:focus,
+  select,
+  select:focus,
+  .Select-control,
+  .Select.is-focused
+  .Select-control,
+  .input-group-addon {
+    border: 1px solid $border-color;
+  }
+
+  // Input-group-addon (datepicker)
+  .input-group-addon {
+    border-left: 0;
+  }
+
+  // Validity icon
+  &:after {
+    @include fa-icon();
+    z-index: $validation-field-icon-z-index;
+    content: $icon;
+    color: $color;
+    position: absolute;
+    top: 12px;
+    right: 10px;
+  }
+
+}
+
+@mixin validation-error {
+  @include validation-status($validation-field-error-color, $validation-field-error-border-color, $fa-var-exclamation-triangle);
+
+  // Exception for checkbox
+  &.validation-field--checkbox {
+    label, a {
+      color: $validation-field-error-color;
+    }
+  }
+}
+
+@mixin validation-success {
+  @include validation-status($validation-field-success-color, $validation-field-success-border-color, $fa-var-check);
+}
+
+.validation-field {
+  position: relative;
+
+  input, input[type="text"] {
+    padding-right: 32px; // Magic number to give some space to validity icon
+  }
+
+  &--error {
+    @include validation-error()
+  }
+
+  &--success {
+    @include validation-success()
+  }
+
+  &--date-picker:after {
+    right: 52px; // Magic number to avoid icon overlapping on datepicker icon
+  }
+
+  &--no-icons:after {
+    display: none;
+  }
+
+}
+
+// TODO RHC : remove ?
+.validation-field .validation-field-error {
+  margin: -3px 0 3px 0;
+  font-size: 14px;
+  color: $validation-field-error-color;
+}
+
+// Tooltip
+.validation-field .validation-tooltip.__react_component_tooltip.type-dark {
+  background-color: $validation-field-tooltip-bg-color;
+  border-radius: 0;
+  padding: 8px 12px;
+  font-size: 14px;
+  max-width: 300px;
+  text-align: center;
+
+  &.place-top:after {
+    border-top-color: $validation-field-tooltip-bg-color;
+  }
+  &.show {
+    opacity: 1;
+  }
+}
+
+// TODO RCH : check error tooltip on mobile
+.validation-field .__react_component_tooltip {
+  @media #{$validation-field-mobile-media-query} {
+
+  }
+}
+
+// TODO RCH : add validation-field-count css

@@ -1,10 +1,10 @@
 {
   "name": "react-validation",
-  "version": "1.1.1",
+  "version": "2.0.0",
   "description": "ReactJs validation component",
   "main": "./lib/js/index.js",
   "scripts": {
-    "build": "babel ./src -d ./lib"
+    "build": "./build.sh"
   },
   "repository": {
     "type": "git",
@@ -19,10 +19,12 @@
   "dependencies": {
     "async-validate": "0.13.1",
     "classnames": "^2.2.0",
+    "font-awesome": "^4.6.3",
     "lodash": "^4.5.1",
     "react": "^0.14.8",
-    "react-dom": "^0.14.8",
     "react-commons": "git://github.com/saintpaul/react-commons",
+    "react-dom": "^0.14.8",
+    "react-tooltip": "3.2.1",
     "reflux": "^0.3.0"
   },
   "devDependencies": {
@@ -54,6 +56,7 @@
     "gulp-util": "~3.0.0",
     "moment": "2.9.0",
     "run-sequence": "~0.3.5",
+    "react-select": "1.0.0-beta8",
     "vinyl-source-stream": "~0.1.1",
     "watchify": "~2.3.0"
   },

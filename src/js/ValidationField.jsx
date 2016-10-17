@@ -1,7 +1,9 @@
 const React = require('react');
-const { RefluxComponent } = require("react-commons");
 const classnames = require("classnames");
 const _ = require('lodash');
+
+const { RefluxComponent } = require("react-commons");
+const Tooltip = require("react-tooltip");
 
 const ValidationUtils = require('./utils/ValidationUtils');
 
@@ -12,6 +14,14 @@ const SUPPORTED_VALUE_PROPS = {
     value: "value",         // For all inputs text / other components
     checked: "checked",     // For checkboxes
     dateTime: "dateTime"    // For datetime picker
+};
+
+// List of special input child that need extra customization
+const SPECIAL_CHILD = {
+    CUSTOM_DATEPICKER: "CustomDateTimePicker",
+    CUSTOM_SELECT: "CustomSelect",
+    SELECT: "Select",
+    CHECKBOX: "checkbox"
 };
 
 /**
@@ -25,7 +35,8 @@ class ValidationField extends RefluxComponent {
         super(props);
 
         this.state = {
-            error: undefined
+            error: undefined,
+            isValid: undefined
         };
         this._isMounted = false;
         this.listenToAction(ValidationActions.validateAllFields, this.forceValidate);
@@ -82,6 +93,9 @@ class ValidationField extends RefluxComponent {
     getInputOnBlur = () => this.getInput().props.onBlur;
     getRule = (rule) => _.get(this.props.rules, rule) || _.get(_.find(this.props.rules, (r) => _.has(r, rule)), rule);
     hasRuleType = (ruleType) => _.find(this.props.rules, (rule) => rule === ruleType || rule.type === ruleType);
+    isSelect = () => this.getInput().type.name === SPECIAL_CHILD.CUSTOM_SELECT || this.getInput().type.name === SPECIAL_CHILD.SELECT;
+    isDatePicker = () => this.getInput().type.name === SPECIAL_CHILD.CUSTOM_DATEPICKER;
+    isCheckbox = () => this.getInput().props.type === SPECIAL_CHILD.CHECKBOX;
 
     // TODO RCH : use SUPPORTED_VALUE_PROPS if possible
     getInputValueFromEvent = (e) => {
@@ -125,7 +139,7 @@ class ValidationField extends RefluxComponent {
             let firstError = errors ? errors[0].message : undefined;
             setTimeout(() => {
                 this.props.onError(firstError); // Call 'onError' callback
-                if(this._isMounted) this.setState({error: firstError}); // Only display the first error
+                if(this._isMounted) this.setState({error: firstError, isValid: !firstError}); // Only display the first error
             }, 0);
         });
         // Always call 'callback' to avoid issue with asynchronous validation (jumping caret)
@@ -208,6 +222,17 @@ class ValidationField extends RefluxComponent {
             this.validate(this.convertValue(this.getInputValue()));
     };
 
+    className = () => classnames("validation-field", {
+        "validation-field--error": this.state.error,
+        "validation-field--success": this.state.isValid,
+        "validation-field--no-icons": !this.props.showIcons || this.isSelect() || this.isCheckbox(), // Hide icon by default field is a Select / checkbox
+        "validation-field--date-picker": this.isDatePicker(), // Add a different class for date-picker
+        "validation-field--checkbox": this.isCheckbox() // Add a different class for checkbox
+    });
+
+    renderTooltip = () => this.state.error ?
+        <Tooltip ref={this.props.name} id={this.props.name} effect="solid" class="validation-tooltip" html/> : null;
+
     renderCount = () => {
         var value = this.getInputValue();
         var count = value ? this.hasRuleType("integer") ? value : value.length : 0;
@@ -220,25 +245,28 @@ class ValidationField extends RefluxComponent {
     };
 
     render = () => {
-        if(!this.props.children || _.isArray(this.props.children)) {
+        if(!this.getInput() || _.isArray(this.getInput())) {
             console.error(`ValidationField with name '${this.props.name}' need to have exactly one child`);
             return null;
         }
 
+        // Clone children input and attach 'onChange' function in order to validate/convert data
         var newProps = _.merge(
-            { onChange : this.onChange },
+            { onChange : this.onChange, id: this.props.name },
             this.props.triggerOnBlur ? { onBlur: this.onBlur } : {}
         );
         let input = React.cloneElement(this.getInput(), newProps);
         let inputWithLabel = <label>{ input } <span dangerouslySetInnerHTML={{__html: this.props.label }}/> </label>;
+        // Events that will display/hide error tooltip
+        let tooltipDisplayEvents = `mouseenter touchstart`;
+        let tooltipCloseEvents = "mouseleave";
 
+        // TODO RCH : bug on mobile : focus on input text make the tooltip disappear
         return (
-            <div className={classnames("validation-field", {"has-error": this.state.error})}>
+            <div className={this.className()} data-for={this.props.name} data-tip={this.state.error} data-event={tooltipDisplayEvents} data-event-off={tooltipCloseEvents}>
+                { this.renderTooltip() }
                 { this.props.label ? inputWithLabel : input }
                 { this.props.count ? this.renderCount() : null }
-                { this.state.error ?
-                    <div className="validation-field-error" dangerouslySetInnerHTML={{__html: this.state.error}}></div> : null
-                }
             </div>
         )
     };
@@ -248,17 +276,19 @@ ValidationField.defaultProps = {
     rules: {},
     onError : () => {},
     onBlur: false,
-    count: false
+    count: false,
+    showIcons: true
 };
 
 ValidationField.propTypes = {
     name: React.PropTypes.string.isRequired,
     label: React.PropTypes.string,
     rules: React.PropTypes.oneOfType([ React.PropTypes.arrayOf(React.PropTypes.object), React.PropTypes.object ]).isRequired, // List of rules, see https://github.com/tmpfs/async-validate#rules
-    triggerFields: React.PropTypes.oneOfType([ React.PropTypes.array, React.PropTypes.string ]), // Field or list of field for which validation should be triggered when this component is changing
+    triggerFields: React.PropTypes.oneOfType([ React.PropTypes.array, React.PropTypes.string ]), // Field or list of fields for which validation should be triggered when this component is changing
     onError: React.PropTypes.func,
     triggerOnBlur: React.PropTypes.bool, // If true, validation will be triggered during onBlur event as well
-    count: React.PropTypes.bool // If true, display a counter on the field.
+    count: React.PropTypes.bool, // If true, display a counter on the field.
+    showIcons: React.PropTypes.bool // If true, display an icon according to field's validity
 };
 
 module.exports = ValidationField;
