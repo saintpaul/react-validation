@@ -1,5 +1,9 @@
 # Change Log
 
+## 2.0.2
+**bug fixes**
+Fix react-dom version to 0.14.8
+
 ## 2.0.1
 **bug fixes**
 - Fix Tooltip issue (using unnecessary ref)

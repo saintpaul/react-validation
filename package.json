@@ -1,6 +1,6 @@
 {
   "name": "react-validation",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "ReactJs validation component",
   "main": "./lib/js/index.js",
   "scripts": {
@@ -23,7 +23,7 @@
     "lodash": "^4.5.1",
     "react": "0.14.8",
     "react-commons": "git://github.com/saintpaul/react-commons",
-    "react-dom": "^0.14.8",
+    "react-dom": "0.14.8",
     "react-tooltip": "3.2.1",
     "reflux": "^0.3.0"
   },
