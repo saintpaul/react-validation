@@ -24,12 +24,18 @@ $validation-field-icon-z-index: 3 !default;
   input[type="number"],
   input[type="search"],
   select,
-  .Select-control,
-  .Select.is-focused
-  .Select-control,
   .input-group-addon {
     &, &:focus {
       border: 1px solid $border-color;
+    }
+  }
+
+  // React-Select
+  .Select-control,
+  .Select.is-focused .Select-control {
+    border: 1px solid $border-color;
+    input:focus {
+      border: 0;
     }
   }
 

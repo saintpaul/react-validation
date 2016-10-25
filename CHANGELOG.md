@@ -1,8 +1,11 @@
 # Change Log
 
 ## 2.0.2
+**technical improvements**
+- Add "ValidationTypes" for special component support like Select and Datepicker
 **bug fixes**
-Fix react-dom version to 0.14.8
+- Fix react-dom version to 0.14.8
+- Fix some CSS
 
 ## 2.0.1
 **bug fixes**

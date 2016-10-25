@@ -1,6 +1,7 @@
 const React = require("react");
 const Select = require("react-select");
 const _ = require("lodash");
+const ValidationTypes = require("../src/js/ValidationTypes");
 
 /**
  * Wrapper for react-select component.
@@ -19,6 +20,24 @@ const _ = require("lodash");
  * - Async mode + valueKey will always returns an object, not valueKey
  * - ignoreCase prop is true by default and it introduces a bug (it transforms text to lowercase)
  */
+
+class ValidationSelect extends React.Component {
+    constructor(props) {
+        super(props)
+    }
+    test = () => "qzdqzdqzdqzd";
+}
+//ValidationSelect.typ = "aDad";
+//ValidationSelect.defaultProps = {
+//  fieldType: "ReactSelect"
+//};
+//
+const ReactValidationComponents = {
+    ValidationSelect: ValidationSelect
+    //ValidationSelect: (props) => <div>Hey</div>
+};
+//
+
 class CustomSelect extends React.Component {
     constructor(props) {
         super(props);
@@ -126,7 +145,8 @@ CustomSelect.propTypes = {
 };
 
 CustomSelect.defaultProps = {
-    options: []
+    options: [],
+    validationType: ValidationTypes.REACT_SELECT
 };
 
 module.exports = CustomSelect;

@@ -6,6 +6,7 @@ const { RefluxComponent } = require("react-commons");
 const Tooltip = require("react-tooltip");
 
 const ValidationUtils = require('./utils/ValidationUtils');
+const ValidationTypes = require('./ValidationTypes');
 
 const ValidationStore = require('./stores/ValidationStore');
 const ValidationActions = require('./actions/ValidationActions');
@@ -14,14 +15,6 @@ const SUPPORTED_VALUE_PROPS = {
     value: "value",         // For all inputs text / other components
     checked: "checked",     // For checkboxes
     dateTime: "dateTime"    // For datetime picker
-};
-
-// List of special input child that need extra customization
-const SPECIAL_CHILD = {
-    CUSTOM_DATEPICKER: "CustomDateTimePicker",
-    CUSTOM_SELECT: "CustomSelect",
-    SELECT: "Select",
-    CHECKBOX: "checkbox"
 };
 
 /**
@@ -93,9 +86,9 @@ class ValidationField extends RefluxComponent {
     getInputOnBlur = () => this.getInput().props.onBlur;
     getRule = (rule) => _.get(this.props.rules, rule) || _.get(_.find(this.props.rules, (r) => _.has(r, rule)), rule);
     hasRuleType = (ruleType) => _.find(this.props.rules, (rule) => rule === ruleType || rule.type === ruleType);
-    isSelect = () => this.getInput().type.name === SPECIAL_CHILD.CUSTOM_SELECT || this.getInput().type.name === SPECIAL_CHILD.SELECT;
-    isDatePicker = () => this.getInput().type.name === SPECIAL_CHILD.CUSTOM_DATEPICKER;
-    isCheckbox = () => this.getInput().props.type === SPECIAL_CHILD.CHECKBOX;
+    isSelect = () => this.getInput().props.validationType === ValidationTypes.REACT_SELECT;
+    isDatePicker = () => this.getInput().props.validationType === ValidationTypes.REACT_DATEPICKER;
+    isCheckbox = () => this.getInput().props.type === ValidationTypes.CHECKBOX;
 
     // TODO RCH : use SUPPORTED_VALUE_PROPS if possible
     getInputValueFromEvent = (e) => {
