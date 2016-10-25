@@ -19,15 +19,18 @@ $validation-field-icon-z-index: 3 !default;
   input,
   input[type="text"],
   input[type="password"],
-  input[type="text"]:focus,
-  input[type="password"]:focus,
+  input[type="date"],
+  input[type="email"],
+  input[type="number"],
+  input[type="search"],
   select,
-  select:focus,
   .Select-control,
   .Select.is-focused
   .Select-control,
   .input-group-addon {
-    border: 1px solid $border-color;
+    &, &:focus {
+      border: 1px solid $border-color;
+    }
   }
 
   // Input-group-addon (datepicker)

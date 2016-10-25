@@ -231,7 +231,9 @@ class ValidationField extends RefluxComponent {
     });
 
     renderTooltip = () => this.state.error ?
-        <Tooltip ref={this.props.name} id={this.props.name} effect="solid" class="validation-tooltip" html/> : null;
+        <Tooltip id={this.props.name} effect="solid" class="validation-tooltip" html>
+            {this.state.error}
+        </Tooltip> : null;
 
     renderCount = () => {
         var value = this.getInputValue();
@@ -263,7 +265,7 @@ class ValidationField extends RefluxComponent {
 
         // TODO RCH : bug on mobile : focus on input text make the tooltip disappear
         return (
-            <div className={this.className()} data-for={this.props.name} data-tip={this.state.error} data-event={tooltipDisplayEvents} data-event-off={tooltipCloseEvents}>
+            <div className={this.className()} data-for={this.props.name} data-tip data-event={tooltipDisplayEvents} data-event-off={tooltipCloseEvents}>
                 { this.renderTooltip() }
                 { this.props.label ? inputWithLabel : input }
                 { this.props.count ? this.renderCount() : null }

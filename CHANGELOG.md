@@ -1,5 +1,9 @@
 # Change Log
 
+## 2.0.1
+**bug fixes**
+- Fix Tooltip issue (using unnecessary ref)
+
 ## 2.0.0
 **features**
 NO BREAKING CHANGES, ONLY LAYOUT CHANGES
