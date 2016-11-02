@@ -218,7 +218,7 @@ class ValidationField extends RefluxComponent {
     className = () => classnames("validation-field", {
         "validation-field--error": this.state.error,
         "validation-field--success": this.state.isValid,
-        "validation-field--no-icons": !this.props.showIcons || this.isSelect() || this.isCheckbox(), // Hide icon by default field is a Select / checkbox
+        "validation-field--with-icons": this.props.showIcons && !this.isSelect() && !this.isCheckbox(), // Hide icon by default field is a Select / checkbox
         "validation-field--date-picker": this.isDatePicker(), // Add a different class for date-picker
         "validation-field--checkbox": this.isCheckbox() // Add a different class for checkbox
     });
@@ -246,10 +246,12 @@ class ValidationField extends RefluxComponent {
         }
 
         // Clone children input and attach 'onChange' function in order to validate/convert data
-        var newProps = _.merge(
-            { onChange : this.onChange, id: this.props.name },
-            this.props.triggerOnBlur ? { onBlur: this.onBlur } : {}
-        );
+        let onChange = { onChange : this.onChange, id: this.props.name };
+        let onBlur = this.props.triggerOnBlur ?
+            this.isDatePicker() ? // Exception for DatePicker
+                { inputProps: _.merge(this.getInput().inputProps, { onBlur: this.onBlur }) } : { onBlur: this.onBlur } : {};
+
+        var newProps = _.merge(onChange, onBlur);
         let input = React.cloneElement(this.getInput(), newProps);
         let inputWithLabel = <label>{ input } <span dangerouslySetInnerHTML={{__html: this.props.label }}/> </label>;
         // Events that will display/hide error tooltip

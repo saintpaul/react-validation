@@ -1,5 +1,10 @@
 # Change Log
 
+## 2.0.3
+**bug fixes**
+- Force border colors on focus.
+- Add exception for DatePicker (onBlur)
+
 ## 2.0.2
 **technical improvements**
 - Add "ValidationTypes" for special component support like Select and Datepicker
