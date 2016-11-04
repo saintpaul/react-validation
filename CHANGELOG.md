@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.1.2
+**technical improvements**
+- Add "ValidationTypes" for special component support like Select and Datepick
+
 ## 1.1.1
 **bug fixes**
 - Fix issue when validating a field during 'onBlur' event

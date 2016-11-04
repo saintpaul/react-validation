@@ -3,5 +3,6 @@ module.exports = {
     ValidationStore         : require("./stores/ValidationStore"),
     ValidationUtils         : require("./utils/ValidationUtils"),
     ValidationField         : require("./ValidationField"),
-    ValidationSubmit        : require("./ValidationSubmit")
+    ValidationSubmit        : require("./ValidationSubmit"),
+    ValidationTypes         : require("./ValidationTypes")
 };
