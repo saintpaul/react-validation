@@ -1,5 +1,9 @@
 # Change Log
 
+## 2.0.4
+**bug fixes**
+- Fix warning in the console (something wrong in tooltip library)
+
 ## 2.0.3
 **bug fixes**
 - Force border colors on focus.

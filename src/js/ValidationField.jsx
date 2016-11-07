@@ -223,10 +223,11 @@ class ValidationField extends RefluxComponent {
         "validation-field--checkbox": this.isCheckbox() // Add a different class for checkbox
     });
 
-    renderTooltip = () => this.state.error ?
+    renderTooltip = () => (
         <Tooltip id={this.props.name} effect="solid" class="validation-tooltip" html>
             {this.state.error}
-        </Tooltip> : null;
+        </Tooltip>
+    );
 
     renderCount = () => {
         var value = this.getInputValue();
@@ -260,7 +261,7 @@ class ValidationField extends RefluxComponent {
 
         // TODO RCH : bug on mobile : focus on input text make the tooltip disappear
         return (
-            <div className={this.className()} data-for={this.props.name} data-tip data-event={tooltipDisplayEvents} data-event-off={tooltipCloseEvents}>
+            <div className={this.className()} data-for={this.props.name} data-tip='' data-event={tooltipDisplayEvents} data-event-off={tooltipCloseEvents}>
                 { this.renderTooltip() }
                 { this.props.label ? inputWithLabel : input }
                 { this.props.count ? this.renderCount() : null }
