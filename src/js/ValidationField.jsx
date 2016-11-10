@@ -250,7 +250,7 @@ class ValidationField extends RefluxComponent {
         let onChange = { onChange : this.onChange, id: this.props.name };
         let onBlur = this.props.triggerOnBlur ?
             this.isDatePicker() ? // Exception for DatePicker
-                { inputProps: _.merge(this.getInput().inputProps, { onBlur: this.onBlur }) } : { onBlur: this.onBlur } : {};
+                { inputProps: _.merge(this.getInput().props.inputProps, { onBlur: this.onBlur }) } : { onBlur: this.onBlur } : {};
 
         var newProps = _.merge(onChange, onBlur);
         let input = React.cloneElement(this.getInput(), newProps);
