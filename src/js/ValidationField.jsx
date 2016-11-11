@@ -223,11 +223,11 @@ class ValidationField extends RefluxComponent {
         "validation-field--checkbox": this.isCheckbox() // Add a different class for checkbox
     });
 
-    renderTooltip = () => (
-        <Tooltip id={this.props.name} effect="solid" class="validation-tooltip" html>
-            {this.state.error}
-        </Tooltip>
-    );
+    renderTooltip = () =>
+        this.state.error ?
+            <Tooltip id={this.props.name} effect="solid" class="validation-tooltip" html>
+                {this.state.error}
+            </Tooltip> : null;
 
     renderCount = () => {
         var value = this.getInputValue();

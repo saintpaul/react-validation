@@ -1,8 +1,8 @@
 # Change Log
 
-## 2.0.4
+## 2.0.6
 **bug fixes**
-- Fix warning in the console (something wrong in tooltip library)
+- Fix rendering issue (tooltip was still displayed even if there were no error)
 
 ## 2.0.5
 **bug fixes**
