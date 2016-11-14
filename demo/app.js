@@ -108,7 +108,7 @@ class Demo extends React.Component {
             ]}>
                 <input type="checkbox" checked={this.state.terms} onChange={this.onChangeTerms}/>
             </ValidationField>
-            <ValidationSubmit onSuccess={this.onSubmit}>SUBMIT</ValidationSubmit>
+            <ValidationSubmit onSuccess={this.onSubmit} className="expand">SUBMIT</ValidationSubmit>
         </div>
     );
 }

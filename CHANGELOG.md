@@ -1,5 +1,10 @@
 # Change Log
 
+## 2.1.0
+**features**
+- Display an error near submit button if form contains errors
+- Display error field with a bigger border
+
 ## 2.0.6
 **bug fixes**
 - Fix rendering issue (tooltip was still displayed even if there were no error)

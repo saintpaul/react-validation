@@ -10,7 +10,9 @@ class ValidationSubmit extends RefluxComponent {
     constructor(props) {
         super(props);
 
-        this.state = { };
+        this.state = {
+            hasError: false
+        };
         this.listenToStore(ValidationStore, this.onSuccess)
     }
 
@@ -24,6 +26,7 @@ class ValidationSubmit extends RefluxComponent {
     };
 
     onSuccess = (errors) => {
+        this.setState({ hasError: !_.isEmpty(errors) });
         this.props.onSuccess(errors);
     };
 
@@ -37,24 +40,31 @@ class ValidationSubmit extends RefluxComponent {
             this.props.onSuccess();
     };
 
+    renderButton = (newProps) => (
+        <div className="validation-submit">
+            <button {...newProps} onClick={this.submit}/>
+            { this.state.hasError ? <div className="validation-submit__error">{ newProps.errorMessage }</div> : null }
+        </div>
+    );
+
     render = () => {
         let newProps = _.merge(this._cleanProps(), { onClick: this.submit });
 
-        return this.props.renderFactory ?
-            this.props.renderFactory(newProps) :
-            <button {...newProps} onClick={this.submit}/>;
+        return this.props.renderFactory ? this.props.renderFactory(newProps, this.state.hasError) : this.renderButton(newProps);
     }
 
 }
 
 ValidationSubmit.defaultProps = {
-    onClick: () => {}
+    onClick: () => {},
+    errorMessage: "Some fields are incorrect, please review them."
 };
 
 ValidationSubmit.propTypes = {
     onClick:        React.PropTypes.func,
     onSuccess:      React.PropTypes.func.isRequired,
-    renderFactory:  React.PropTypes.func
+    renderFactory:  React.PropTypes.func,
+    errorMessage:   React.PropTypes.string
 };
 
 module.exports = ValidationSubmit;

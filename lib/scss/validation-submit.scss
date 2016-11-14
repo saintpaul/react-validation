@@ -1,0 +1,10 @@
+$validation-submit-error-color: $validation-field-error-color !default;
+
+.validation-submit {
+
+  &__error {
+    color: $validation-submit-error-color;
+    text-align: center;
+  }
+
+}
