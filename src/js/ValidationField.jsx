@@ -6,6 +6,7 @@ const { RefluxComponent } = require("react-commons");
 const Tooltip = require("react-tooltip");
 
 const ValidationUtils = require('./utils/ValidationUtils');
+const Responsive = require('./utils/Responsive');
 const ValidationTypes = require('./ValidationTypes');
 
 const ValidationStore = require('./stores/ValidationStore');
@@ -223,11 +224,9 @@ class ValidationField extends RefluxComponent {
         "validation-field--checkbox": this.isCheckbox() // Add a different class for checkbox
     });
 
-    renderTooltip = () =>
-        this.state.error ?
-            <Tooltip id={this.props.name} effect="solid" class="validation-tooltip" html>
-                {this.state.error}
-            </Tooltip> : null;
+    renderError = () => Responsive.isTablet() ?
+        <div className="validation-field-error">{ this.state.error }</div> :
+        <Tooltip id={this.props.name} effect="solid" class="validation-tooltip" html>{ this.state.error }</Tooltip>;
 
     renderCount = () => {
         var value = this.getInputValue();
@@ -255,16 +254,19 @@ class ValidationField extends RefluxComponent {
         var newProps = _.merge(onChange, onBlur);
         let input = React.cloneElement(this.getInput(), newProps);
         let inputWithLabel = <label>{ input } <span dangerouslySetInnerHTML={{__html: this.props.label }}/> </label>;
-        // Events that will display/hide error tooltip
-        let tooltipDisplayEvents = `mouseenter touchstart`;
-        let tooltipCloseEvents = "mouseleave";
 
-        // TODO RCH : bug on mobile : focus on input text make the tooltip disappear
+        var tooltipProps = {
+            "data-tip": "",
+            "data-for": this.props.name,
+            "data-event": "mouseenter touchstart",
+            "data-event-off": "mouseleave"
+        };
+
         return (
-            <div className={this.className()} data-for={this.props.name} data-tip='' data-event={tooltipDisplayEvents} data-event-off={tooltipCloseEvents}>
-                { this.renderTooltip() }
+            <div className={this.className()} {...tooltipProps}>
                 { this.props.label ? inputWithLabel : input }
                 { this.props.count ? this.renderCount() : null }
+                { this.renderError() }
             </div>
         )
     };

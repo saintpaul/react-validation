@@ -18,7 +18,7 @@ gulp.task('clean-test', function (cb) {
 gulp.task('serve', function() {
 
     connect.server({
-        port:8111,
+        port: 9999,
         root: './demo/build',
         livereload: {
             port: 35111

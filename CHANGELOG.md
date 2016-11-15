@@ -1,5 +1,9 @@
 # Change Log
 
+## 2.2.0
+**features**
+- In mobile/tablet mode, show error under each field instead of tooltip
+
 ## 2.1.0
 **features**
 - Display an error near submit button if form contains errors
