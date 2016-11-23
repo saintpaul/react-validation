@@ -21,6 +21,7 @@ class ValidationSubmit extends RefluxComponent {
         delete newProps.onClick;
         delete newProps.onSuccess;
         delete newProps.renderFactory;
+        delete newProps.errorMessage;
 
         return newProps;
     };

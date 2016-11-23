@@ -2,7 +2,10 @@ const React = require('react');
 const ReactDom = require('react-dom');
 const ValidationField = require('../src/js/ValidationField');
 const ValidationSubmit = require('../src/js/ValidationSubmit');
+const Configuration = require("../src/js/Configuration");
 const CustomSelect = require("./CustomSelect");
+// Override configuration
+// Configuration.ICON_ERROR_CLASS = "fa fa-bus";
 
 // TODO RCH : add components like "CustomDatePicker" when they'll be on github
 class Demo extends React.Component {
@@ -17,6 +20,7 @@ class Demo extends React.Component {
             bio: "",
             age: undefined,
             nickname: "",
+            citation: "",
             level: "",
             spell: "",
             avatarUrl: "",
@@ -29,14 +33,12 @@ class Demo extends React.Component {
     onChangeGerman = (value) => this.setState({ german: value });
     onChangeBio = (value) => this.setState({ bio: value });
     onChangeNickname = (value) => this.setState({ nickname: value });
+    onChangeCitation = (value) => this.setState({ citation: value });
     onChangeAge = (value) => this.setState({ age: value });
     onChangeLevel = (value) => this.setState({ level: value });
     onChangeSpell = (value) => this.setState({ spell: value });
     onChangeAvatarUrl = (value) => this.setState({ avatarUrl : value });
-    onChangeTerms = (value) => {
-        console.log("on change terms")
-        this.setState({ terms: value });
-    }
+    onChangeTerms = (value) => this.setState({ terms: value });
 
     onSubmit = (errors) => {
         // For debugging only
@@ -81,9 +83,13 @@ class Demo extends React.Component {
             <ValidationField name="bio" rules={{ required: false, type: "string" }} showIcons={false}>
                 <input type="text" value={this.state.bio} onChange={this.onChangeBio} />
             </ValidationField>
-            <label>Nickname (max: 6 chars): </label>
-            <ValidationField name="nickname" rules={{ required: true, max: 6 }} count>
+            <label>Nickname (custom icons): </label>
+            <ValidationField name="nickname" rules={{ required: true }} iconErrorClass="fa fa-gavel" iconValidClass="fa fa-beer">
                 <input type="text" value={this.state.nickname} onChange={this.onChangeNickname}/>
+            </ValidationField>
+            <label>Citation (max 6, show chars left) : </label>
+            <ValidationField name="citation" rules={{ required: true, max: 6 }} iconErrorClass="fa fa-gavel" iconValidClass="fa fa-beer" showCharsLeft>
+                <input type="text" value={this.state.citation} onChange={this.onChangeCitation}/>
             </ValidationField>
             <label>Age (number, min 18, no icons by default) : </label>
             <ValidationField name="age"  rules={{ required: true, type: "number", min: 18 }}>

@@ -1,5 +1,15 @@
 # Change Log
 
+## 2.3.0
+**features**
+- Display tooltip onClick event
+
+**technical improvements**
+- Remove font-awesome dependency
+- Add Configuration.js file
+- Add 2 props "iconValidClass" and "iconErrorClass"
+- Remove props error in the console
+
 ## 2.2.0
 **features**
 - In mobile/tablet mode, show error under each field instead of tooltip

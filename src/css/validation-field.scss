@@ -4,21 +4,26 @@ $validation-field-error-color: red !default;
 $validation-field-error-border-color: rgba(red, 0.6) !default;
 $validation-field-success-color: green !default;
 $validation-field-success-border-color: rgba(green, 0.3) !default;
-$validation-field-mobile-media-query: screen and (max-width: 400px) !default;
 $validation-field-tooltip-bg-color: #414A55 !default;
 
 // Sizing
+$validation-field-error-border-size: 2px !default;
+$validation-field-success-border-size: 1px !default;
+
 $validation-field-tooltip-font-size: 16px !default;
+$validation-field-icon-font-size: 16px !default;
+$validation-field-count-font-size: 14px !default;
 
 // Others
 $validation-field-icon-z-index: 3 !default;
-$validation-field-error-border-size: 2px;
-$validation-field-success-border-size: 1px;
+$validation-field-icon-top: 11px !default;
+$validation-field-icon-right: 10px !default;
+$validation-field-count-margin: 0 0 16px 0 !default;
 
 // React-select
 $select-input-border-focus: $validation-field-focus;
 
-@mixin validation-status($color, $border-color, $icon, $border-size) {
+@mixin validation-status($color, $border-color, $border-size) {
 
   // Input field inside validation-field
   input,
@@ -39,33 +44,17 @@ $select-input-border-focus: $validation-field-focus;
   // React-Select
   .Select-control {
     border: $border-size solid $border-color;
-
-    input {
-      border: 0;
-      outline: none;
-    }
-  }
-
-  // Input-group-addon (datepicker)
-  .input-group-addon {
-    border-left: 0;
   }
 
   // Validity icon
-  &:after {
-    @include fa-icon();
-    z-index: $validation-field-icon-z-index;
-    content: $icon;
+  .validation-field__icon {
     color: $color;
-    position: absolute;
-    top: 12px;
-    right: 10px;
   }
 
 }
 
 @mixin validation-error {
-  @include validation-status($validation-field-error-color, $validation-field-error-border-color, $fa-var-exclamation-triangle, $validation-field-error-border-size);
+  @include validation-status($validation-field-error-color, $validation-field-error-border-color, $validation-field-error-border-size);
 
   // Exception for checkbox
   &.validation-field--checkbox {
@@ -76,11 +65,19 @@ $select-input-border-focus: $validation-field-focus;
 }
 
 @mixin validation-success {
-  @include validation-status($validation-field-success-color, $validation-field-success-border-color, $fa-var-check, $validation-field-success-border-size);
+  @include validation-status($validation-field-success-color, $validation-field-success-border-color, $validation-field-success-border-size);
 }
 
 .validation-field {
   position: relative;
+
+  &:after {
+    visibility: hidden;
+  }
+
+  /**
+   * States
+   */
 
   &--error {
     @include validation-error()
@@ -94,10 +91,6 @@ $select-input-border-focus: $validation-field-focus;
     right: 52px; // Magic number to avoid icon overlapping on datepicker icon
   }
 
-  &:after {
-    visibility: hidden;
-  }
-
   &--with-icons {
     &:after {
       visibility: visible;
@@ -107,37 +100,69 @@ $select-input-border-focus: $validation-field-focus;
     }
   }
 
-}
-
-// TODO RHC : remove ?
-.validation-field .validation-field-error {
-  margin: -3px 0 3px 0;
-  font-size: 14px;
-  color: $validation-field-error-color;
-}
-
-// Tooltip
-.validation-field .validation-tooltip.__react_component_tooltip.type-dark {
-  background-color: $validation-field-tooltip-bg-color;
-  border-radius: 0;
-  padding: 8px 12px;
-  font-size: 14px;
-  max-width: 300px;
-  text-align: center;
-
-  &.place-top:after {
-    border-top-color: $validation-field-tooltip-bg-color;
+  &--with-count {
+    input,
+    input[type="text"],
+    input[type="password"],
+    input[type="date"],
+    input[type="email"],
+    input[type="number"],
+    input[type="search"],
+    select {
+      margin-bottom: 2px;
+    }
   }
-  &.show {
-    opacity: 1;
+
+  /**
+   * Sub components
+   */
+
+  // React-Select
+  .Select-control input {
+    border: 0;
+    outline: none;
   }
-}
 
-// TODO RCH : check error tooltip on mobile
-.validation-field .__react_component_tooltip {
-  @media #{$validation-field-mobile-media-query} {
-
+  // Input-group-addon (datepicker)
+  .input-group-addon {
+    border-left: 0;
   }
-}
 
-// TODO RCH : add validation-field-count css
+  // Validity icon
+  &__icon {
+    position: absolute;
+    z-index: $validation-field-icon-z-index;
+    top: $validation-field-icon-top;
+    right: $validation-field-icon-right;
+    font-size: $validation-field-icon-font-size;
+  }
+
+  // Error message (mobile/tablet only)
+  &__error-message {
+    margin: -3px 0 3px 0;
+    font-size: 14px;
+    color: $validation-field-error-color;
+  }
+
+  &__tooltip.__react_component_tooltip.type-dark {
+    background-color: $validation-field-tooltip-bg-color;
+    border-radius: 0;
+    padding: 8px 12px;
+    font-size: 14px;
+    max-width: 300px;
+    text-align: center;
+
+    &.place-top:after {
+      border-top-color: $validation-field-tooltip-bg-color;
+    }
+    &.show {
+      opacity: 1;
+    }
+  }
+
+  &__chars-left {
+    font-size: $validation-field-count-font-size;
+    margin: $validation-field-count-margin;
+  }
+
+}

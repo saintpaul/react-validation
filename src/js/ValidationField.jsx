@@ -12,6 +12,8 @@ const ValidationTypes = require('./ValidationTypes');
 const ValidationStore = require('./stores/ValidationStore');
 const ValidationActions = require('./actions/ValidationActions');
 
+const Config = require("./Configuration");
+
 const SUPPORTED_VALUE_PROPS = {
     value: "value",         // For all inputs text / other components
     checked: "checked",     // For checkboxes
@@ -216,27 +218,42 @@ class ValidationField extends RefluxComponent {
             this.validate(this.convertValue(this.getInputValue()));
     };
 
+    showCharsLeft = () => this.props.showCharsLeft;
+    showIcons = () => this.props.showIcons && !this.isSelect() && !this.isCheckbox();
+
     className = () => classnames("validation-field", {
         "validation-field--error": this.state.error,
         "validation-field--success": this.state.isValid,
-        "validation-field--with-icons": this.props.showIcons && !this.isSelect() && !this.isCheckbox(), // Hide icon by default field is a Select / checkbox
+        "validation-field--with-icons": this.showIcons(), // Hide icon by default field is a Select / checkbox
+        "validation-field--with-count": this.showCharsLeft(), // Hide icon by default field is a Select / checkbox
         "validation-field--date-picker": this.isDatePicker(), // Add a different class for date-picker
         "validation-field--checkbox": this.isCheckbox() // Add a different class for checkbox
     });
 
     renderError = () => Responsive.isTablet() ?
-        <div className="validation-field-error">{ this.state.error }</div> :
-        <Tooltip id={this.props.name} effect="solid" class="validation-tooltip" html>{ this.state.error }</Tooltip>;
+        <div className="validation-field__error-message">{ this.state.error }</div> :
+        <Tooltip id={this.props.name} effect="solid" class="validation-field__tooltip" html>{ this.state.error }</Tooltip>;
 
-    renderCount = () => {
-        var value = this.getInputValue();
-        var count = value ? this.hasRuleType("integer") ? value : value.length : 0;
-        let maxCountReached = count >= this.getRule("max");
-        return (
-            <span className={ classnames("validation-field-count", { "max-count-reached": maxCountReached }) }>
-                { count }
-            </span>
-        );
+    renderCharsLeft = () => {
+        let value = this.getInputValue();
+        let count = value ? this.hasRuleType("integer") ? value : value.length : 0;
+        let charsLeft = count >= this.getRule("max") ? 0 : this.getRule("max") - count;
+
+        let charsLeftMessage = this.props.charsLeftMessage ? this.props.charsLeftMessage(charsLeft) : Config.COUNT_MESSAGE(charsLeft);
+
+        return <div className="validation-field__chars-left">{ charsLeftMessage }</div>
+    };
+
+    renderIcon = () => {
+        if(this.state.error || this.state.isValid) {
+            let iconClass = this.state.error ?
+                this.props.iconErrorClass || Config.ICON_ERROR_CLASS : this.state.isValid ?
+                this.props.iconValidClass || Config.ICON_VALID_CLASS : "";
+
+            return <i className={`validation-field__icon ${iconClass}`}/>;
+        } else {
+            return null;
+        }
     };
 
     render = () => {
@@ -244,6 +261,8 @@ class ValidationField extends RefluxComponent {
             console.error(`ValidationField with name '${this.props.name}' need to have exactly one child`);
             return null;
         }
+        if(this.showCharsLeft() && _.isUndefined(this.getRule("max")))
+            console.error(`ValidationField with name '${this.props.name}' should declare 'max' rule because 'showCharsLeft' is defined`);
 
         // Clone children input and attach 'onChange' function in order to validate/convert data
         let onChange = { onChange : this.onChange, id: this.props.name };
@@ -258,14 +277,15 @@ class ValidationField extends RefluxComponent {
         var tooltipProps = {
             "data-tip": "",
             "data-for": this.props.name,
-            "data-event": "mouseenter touchstart",
+            "data-event": "mouseenter touchstart click",
             "data-event-off": "mouseleave"
         };
 
         return (
             <div className={this.className()} {...tooltipProps}>
                 { this.props.label ? inputWithLabel : input }
-                { this.props.count ? this.renderCount() : null }
+                { this.showCharsLeft() ? this.renderCharsLeft() : null }
+                { this.showIcons() ? this.renderIcon() : null }
                 { this.renderError() }
             </div>
         )
@@ -276,7 +296,7 @@ ValidationField.defaultProps = {
     rules: {},
     onError : () => {},
     onBlur: false,
-    count: false,
+    showCharsLeft: false,
     showIcons: true
 };
 
@@ -286,9 +306,12 @@ ValidationField.propTypes = {
     rules: React.PropTypes.oneOfType([ React.PropTypes.arrayOf(React.PropTypes.object), React.PropTypes.object ]).isRequired, // List of rules, see https://github.com/tmpfs/async-validate#rules
     triggerFields: React.PropTypes.oneOfType([ React.PropTypes.array, React.PropTypes.string ]), // Field or list of fields for which validation should be triggered when this component is changing
     onError: React.PropTypes.func,
-    triggerOnBlur: React.PropTypes.bool, // If true, validation will be triggered during onBlur event as well
-    count: React.PropTypes.bool, // If true, display a counter on the field.
-    showIcons: React.PropTypes.bool // If true, display an icon according to field's validity
+    triggerOnBlur: React.PropTypes.bool,        // If true, validation will be triggered during onBlur event as well
+    showCharsLeft: React.PropTypes.bool,        // If true, display number of remaining chars. A 'max' rule must be set.
+    charsLeftMessage: React.PropTypes.func,     // Message to display when 'showCharsLeft' property is true
+    showIcons: React.PropTypes.bool,            // If true, display an icon according to field's validity
+    iconValidClass: React.PropTypes.string,     // Icon class to apply when field is valid (this option can be globally set in Configuration.js as well)
+    iconErrorClass: React.PropTypes.string      // Icon class to apply when field is not valid (this option can be globally set in Configuration.js as well)
 };
 
 module.exports = ValidationField;
