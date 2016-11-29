@@ -221,7 +221,7 @@ class ValidationField extends RefluxComponent {
     showCharsLeft = () => this.props.showCharsLeft;
     showIcons = () => this.props.showIcons && !this.isSelect() && !this.isCheckbox();
 
-    className = () => classnames("validation-field", {
+    className = () => classnames("validation-field", this.props.className, {
         "validation-field--error": this.state.error,
         "validation-field--success": this.state.isValid,
         "validation-field--with-icons": this.showIcons(), // Hide icon by default field is a Select / checkbox
@@ -311,7 +311,8 @@ ValidationField.propTypes = {
     charsLeftMessage: React.PropTypes.func,     // Message to display when 'showCharsLeft' property is true
     showIcons: React.PropTypes.bool,            // If true, display an icon according to field's validity
     iconValidClass: React.PropTypes.string,     // Icon class to apply when field is valid (this option can be globally set in Configuration.js as well)
-    iconErrorClass: React.PropTypes.string      // Icon class to apply when field is not valid (this option can be globally set in Configuration.js as well)
+    iconErrorClass: React.PropTypes.string,     // Icon class to apply when field is not valid (this option can be globally set in Configuration.js as well)
+    className: React.PropTypes.string           // Additional class name
 };
 
 module.exports = ValidationField;

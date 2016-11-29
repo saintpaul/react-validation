@@ -1,5 +1,9 @@
 # Change Log
 
+## 2.3.1
+**features**
+- Add 'className' prop to ValidationField
+
 ## 2.3.0
 **features**
 - Display tooltip onClick event
