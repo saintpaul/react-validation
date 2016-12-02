@@ -278,7 +278,8 @@ class ValidationField extends RefluxComponent {
             "data-tip": "",
             "data-for": this.props.name,
             "data-event": "mouseenter touchstart click",
-            "data-event-off": "mouseleave"
+            "data-event-off": "mouseleave",
+            "data-iscapture": true // Will propagates all events in data-event
         };
 
         return (

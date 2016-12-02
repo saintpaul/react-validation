@@ -1,5 +1,9 @@
 # Change Log
 
+## 2.3.2
+**bug fixes**
+- Prevent Tooltip to stop event propagation
+
 ## 2.3.1
 **features**
 - Add 'className' prop to ValidationField
