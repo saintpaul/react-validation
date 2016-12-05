@@ -231,7 +231,7 @@ class ValidationField extends RefluxComponent {
     });
 
     renderError = () => Responsive.isTablet() ?
-        <div className="validation-field__error-message">{ this.state.error }</div> :
+        this.state.error ? <div className="validation-field__error-message">{ this.state.error }</div> : null :
         <Tooltip id={this.props.name} effect="solid" class="validation-field__tooltip" html>{ this.state.error }</Tooltip>;
 
     renderCharsLeft = () => {

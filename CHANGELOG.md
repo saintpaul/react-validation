@@ -1,5 +1,9 @@
 # Change Log
 
+## 2.3.3
+**technical improvements**
+- Remove error message from DOM if there is no error
+
 ## 2.3.2
 **bug fixes**
 - Prevent Tooltip to stop event propagation
