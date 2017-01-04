@@ -1,5 +1,9 @@
 # Change Log
 
+## 2.4.0
+**features**
+- Add a way to translate error messages by adding "MESSAGES" key in Configuration file
+
 ## 2.3.3
 **technical improvements**
 - Remove error message from DOM if there is no error

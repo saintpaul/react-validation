@@ -6,6 +6,8 @@ const Configuration = require("../src/js/Configuration");
 const CustomSelect = require("./CustomSelect");
 // Override configuration
 // Configuration.ICON_ERROR_CLASS = "fa fa-bus";
+// Configuration.MESSAGES.whitespace = "This field is required !!!";
+// Configuration.MESSAGES = { whitespace: "This field is required !!!" };
 
 // TODO RCH : add components like "CustomDatePicker" when they'll be on github
 class Demo extends React.Component {

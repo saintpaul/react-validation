@@ -144,7 +144,7 @@ class ValidationField extends RefluxComponent {
 
     errorMessage = (msg, params) => {
         // Replace first param (= name of the field)
-        params[0] = "This field";
+        params[0] = Config.ERROR_MESSAGE_FIELD_NAME;
         // Replace each parameter with his corresponding value
         _.map(params, p => msg = msg.replace("%s", p));
 

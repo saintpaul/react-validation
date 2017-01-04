@@ -6,9 +6,10 @@ const Schema                = require("async-validate");
 const messages              = require("async-validate/messages");
 const ValidationActions     = require("../actions/ValidationActions");
 const ValidationUtils       = require("../utils/ValidationUtils");
+const Config                = require("../Configuration");
 
 // Override default date error message
-messages.date.invalid = "%s is not a valid date";
+Config.MESSAGES.date.invalid = "%s is not a valid date";
 
 /**
  * ValidationStore internal structure :
@@ -99,7 +100,8 @@ var ValidationStore = Reflux.createStore({
 
     _getValidateOptions() {
         return {
-            bail: true // Stop validation when the first error is encountered
+            bail: true, // Stop validation when the first error is encountered
+            messages: Config.MESSAGES
         };
     },
 
