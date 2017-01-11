@@ -1,6 +1,10 @@
 # Change Log
 
 
+## 3.0.0
+**technical improvements**
+- Defined PeerDependencies and specific lodash require instead of global lodash 
+
 ## 2.4.2
 **technical improvements**
 - Add an "input-wrapper" to correctly display icon 

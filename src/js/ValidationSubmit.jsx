@@ -1,6 +1,8 @@
 const React = require('react');
 const { RefluxComponent } = require("react-commons");
-const _ = require("lodash");
+const _clone = require('lodash/clone');
+const _merge = require('lodash/merge');
+const _isEmpty = require('lodash/isEmpty');
 
 const ValidationStore = require('./stores/ValidationStore');
 
@@ -17,7 +19,7 @@ class ValidationSubmit extends RefluxComponent {
     }
 
     _cleanProps = () => {
-        let newProps = _.clone(this.props);
+        let newProps = _clone(this.props);
         delete newProps.onClick;
         delete newProps.onSuccess;
         delete newProps.renderFactory;
@@ -27,7 +29,7 @@ class ValidationSubmit extends RefluxComponent {
     };
 
     onSuccess = (errors) => {
-        this.setState({ hasError: !_.isEmpty(errors) });
+        this.setState({ hasError: !_isEmpty(errors) });
         this.props.onSuccess(errors);
     };
 
@@ -49,7 +51,7 @@ class ValidationSubmit extends RefluxComponent {
     );
 
     render = () => {
-        let newProps = _.merge(this._cleanProps(), { onClick: this.submit });
+        let newProps = _merge(this._cleanProps(), { onClick: this.submit });
 
         return this.props.renderFactory ? this.props.renderFactory(newProps, this.state.hasError) : this.renderButton(newProps);
     }

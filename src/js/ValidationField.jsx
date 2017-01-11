@@ -1,6 +1,19 @@
 const React = require('react');
 const classnames = require("classnames");
-const _ = require('lodash');
+const _cloneDeep = require('lodash/cloneDeep');
+const _findIndex = require('lodash/findIndex');
+const _has = require('lodash/has');
+const _merge = require('lodash/merge');
+const _map = require('lodash/map');
+const _keys = require('lodash/keys');
+const _includes = require('lodash/includes');
+const _get = require('lodash/get');
+const _find = require('lodash/find');
+const _isArray = require('lodash/isArray');
+const _isEmpty = require('lodash/isEmpty');
+const _isUndefined = require('lodash/isUndefined');
+
+
 
 const { RefluxComponent } = require("react-commons");
 const Tooltip = require("react-tooltip");
@@ -44,16 +57,16 @@ class ValidationField extends RefluxComponent {
         // Check if input children contains a valid prop to get his value
         if(this.getValueProp()) {
             // Update rules by adding "required: true" and "whitespace: true" as default values (if not already set)
-            var rules = _.cloneDeep(this.props.rules);
+            var rules = _cloneDeep(this.props.rules);
             if(this.rulesIsArray()) {
-                let requiredRuleIndex = _.findIndex(rules, (rule) => _.has(rule, "required"));
-                let ruleTypeIndex = _.findIndex(rules, (rule) => _.has(rule, "type"));
+                let requiredRuleIndex = _findIndex(rules, (rule) => _has(rule, "required"));
+                let ruleTypeIndex = _findIndex(rules, (rule) => _has(rule, "type"));
                 let ruleType = ruleTypeIndex !== -1 ? rules[ruleTypeIndex].type : "string";
                 //let ruleIndexToUpdate = requiredRuleIndex !== -1 ? requiredRuleIndex : ruleTypeIndex;
                 let ruleIndexToUpdate = ruleTypeIndex !== -1 ? ruleTypeIndex : requiredRuleIndex;
 
                 // Update or add "required" rule which is the result of the merge between new rule and old rule
-                var newRequiredRule = _.merge({ required: true, whitespace: true, type: ruleType, message: this.errorMessage }, rules[ruleIndexToUpdate]);
+                var newRequiredRule = _merge({ required: true, whitespace: true, type: ruleType, message: this.errorMessage }, rules[ruleIndexToUpdate]);
                 if(ruleTypeIndex === -1 && requiredRuleIndex === -1) {
                     rules.push(newRequiredRule);
                 } else {
@@ -61,15 +74,15 @@ class ValidationField extends RefluxComponent {
                 }
                 // Need to convert validators from { validator: fn } to fn
                 // During schema validation, async-validate will automatically call these function validators
-                rules = _.map(rules, (rule) => this.convertValidatorRule(rule));
+                rules = _map(rules, (rule) => this.convertValidatorRule(rule));
             } else {
                 // Just merge current rule with default one
-                rules = _.merge({ required: true, whitespace: true, type: "string", message: this.errorMessage }, rules);
+                rules = _merge({ required: true, whitespace: true, type: "string", message: this.errorMessage }, rules);
             }
             // When component is mounted, add it to ValidationStore so it must be able to validate this particular field
             ValidationStore.addField(this.props.name, rules);
         } else {
-            console.error(`Field with name '${this.props.name}' should have one of these props : ${_.keys(SUPPORTED_VALUE_PROPS)}`)
+            console.error(`Field with name '${this.props.name}' should have one of these props : ${_keys(SUPPORTED_VALUE_PROPS)}`)
         }
     }
 
@@ -82,13 +95,13 @@ class ValidationField extends RefluxComponent {
     }
 
     // Look into child props to check if it provides one of supported values
-    getValueProp = () => _.find(_.keys(this.getInput().props), (propKey) => _.includes(_.keys(SUPPORTED_VALUE_PROPS), propKey));
+    getValueProp = () => _find(_keys(this.getInput().props), (propKey) => _includes(_keys(SUPPORTED_VALUE_PROPS), propKey));
     getInput = () => this.props.children;
     getInputValue = () => this.getInput().props[this.getValueProp()]; // Get input value depending on input child
     getInputOnChange = () => this.getInput().props.onChange;
     getInputOnBlur = () => this.getInput().props.onBlur;
-    getRule = (rule) => _.get(this.props.rules, rule) || _.get(_.find(this.props.rules, (r) => _.has(r, rule)), rule);
-    hasRuleType = (ruleType) => _.find(this.props.rules, (rule) => rule === ruleType || rule.type === ruleType);
+    getRule = (rule) => _get(this.props.rules, rule) || _get(_find(this.props.rules, (r) => _has(r, rule)), rule);
+    hasRuleType = (ruleType) => _find(this.props.rules, (rule) => rule === ruleType || rule.type === ruleType);
     isSelect = () => this.getInput().props.validationType === ValidationTypes.REACT_SELECT;
     isDatePicker = () => this.getInput().props.validationType === ValidationTypes.REACT_DATEPICKER;
     isCheckbox = () => this.getInput().props.type === ValidationTypes.CHECKBOX;
@@ -106,7 +119,7 @@ class ValidationField extends RefluxComponent {
         }
     };
 
-    rulesIsArray = () => _.isArray(this.props.rules);
+    rulesIsArray = () => _isArray(this.props.rules);
 
     _onChange = (e, inputEvent = () => {}) => {
         var inputValue = this.convertValue(this.getInputValueFromEvent(e));
@@ -123,7 +136,7 @@ class ValidationField extends RefluxComponent {
     validate = (inputValue, callback = () => { } ) => {
         // Trigger validation on others fields if needed
         if(this.props.triggerFields) {
-            ValidationActions.forceValidateFields(_.isArray(this.props.triggerFields) ? this.props.triggerFields : [this.props.triggerFields]);
+            ValidationActions.forceValidateFields(_isArray(this.props.triggerFields) ? this.props.triggerFields : [this.props.triggerFields]);
         }
 
         // Apply some conversion for special cases to fit async-validate expectations
@@ -146,7 +159,7 @@ class ValidationField extends RefluxComponent {
         // Replace first param (= name of the field)
         params[0] = Config.ERROR_MESSAGE_FIELD_NAME;
         // Replace each parameter with his corresponding value
-        _.map(params, p => msg = msg.replace("%s", p));
+        _map(params, p => msg = msg.replace("%s", p));
 
         return msg;
     };
@@ -202,7 +215,7 @@ class ValidationField extends RefluxComponent {
      * - validate a required array with "[]" will return true
      */
     convertSpecialCases = (inputValue) => {
-        if (_.isEmpty(inputValue) && (this.hasRuleType("array") || this.hasRuleType("object")))
+        if (_isEmpty(inputValue) && (this.hasRuleType("array") || this.hasRuleType("object")))
             return undefined;
         else
             return inputValue;
@@ -214,7 +227,7 @@ class ValidationField extends RefluxComponent {
 
     forceValidateFromFields = (fieldNames/*:array*/) => {
         // Validate this input only if it appears into list of fields to validate
-        if(_.find(fieldNames, (name) => name === this.props.name))
+        if(_find(fieldNames, (name) => name === this.props.name))
             this.validate(this.convertValue(this.getInputValue()));
     };
 
@@ -262,20 +275,20 @@ class ValidationField extends RefluxComponent {
     );
 
     render = () => {
-        if(!this.getInput() || _.isArray(this.getInput())) {
+        if(!this.getInput() || _isArray(this.getInput())) {
             console.error(`ValidationField with name '${this.props.name}' need to have exactly one child`);
             return null;
         }
-        if(this.showCharsLeft() && _.isUndefined(this.getRule("max")))
+        if(this.showCharsLeft() && _isUndefined(this.getRule("max")))
             console.error(`ValidationField with name '${this.props.name}' should declare 'max' rule because 'showCharsLeft' is defined`);
 
         // Clone children input and attach 'onChange' function in order to validate/convert data
         let onChange = { onChange : this.onChange, id: this.props.name };
         let onBlur = this.props.triggerOnBlur ?
             this.isDatePicker() ? // Exception for DatePicker
-                { inputProps: _.merge(this.getInput().props.inputProps, { onBlur: this.onBlur }) } : { onBlur: this.onBlur } : {};
+                { inputProps: _merge(this.getInput().props.inputProps, { onBlur: this.onBlur }) } : { onBlur: this.onBlur } : {};
 
-        let newProps = _.merge(onChange, onBlur);
+        let newProps = _merge(onChange, onBlur);
         let input = React.cloneElement(this.getInput(), newProps);
 
         let tooltipProps = {

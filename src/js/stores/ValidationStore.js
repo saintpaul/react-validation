@@ -1,7 +1,9 @@
 // Import all supported validation types
 require('async-validate/plugin/all');
 const Reflux                = require("reflux");
-const _                     = require("lodash");
+const _keys                 = require('lodash/keys');
+const _difference           = require('lodash/difference');
+const _isEmpty              = require('lodash/isEmpty');
 const Schema                = require("async-validate");
 const messages              = require("async-validate/messages");
 const ValidationActions     = require("../actions/ValidationActions");
@@ -112,9 +114,9 @@ var ValidationStore = Reflux.createStore({
             this.validateAll.errors.push({ [name]: error }); // Add field's error to list of errors
         }
         // If all fields have been validated, stop the validateAll process and gives back field's errors to listeners
-        if (_.isEmpty(_.difference(_.keys(this.fields), _.keys(this.validateAll.fields)))) {
+        if (_isEmpty(_difference(_keys(this.fields), _keys(this.validateAll.fields)))) {
             this.validateAll.enabled = false;
-            this.trigger(!_.isEmpty(this.validateAll.errors) ? this.validateAll.errors : undefined );
+            this.trigger(!_isEmpty(this.validateAll.errors) ? this.validateAll.errors : undefined );
         }
     }
 

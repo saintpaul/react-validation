@@ -1,4 +1,7 @@
-const _ = require("lodash");
+const _isString = require('lodash/isString');
+const _isNumber = require('lodash/isNumber');
+const _isNull = require('lodash/isNull');
+const _isUndefined = require('lodash/isUndefined');
 
 
 class ValidationUtils {
@@ -19,7 +22,7 @@ class ValidationUtils {
             return undefined;
 
         var num = input;
-        if(_.isNumber(input)) {
+        if(_isNumber(input)) {
             num = input.toString();
         }
 
@@ -40,7 +43,7 @@ class ValidationUtils {
             return undefined;
 
         var string = input;
-        if(_.isString(string)) {
+        if(_isString(string)) {
             string = input.toString();
         }
         return string;
@@ -51,7 +54,7 @@ class ValidationUtils {
     }
 
     static isEmpty(input) {
-        return _.isNull(input) || _.isUndefined(input) || input === "";
+        return _isNull(input) || _isUndefined(input) || input === "";
     }
 
 }
