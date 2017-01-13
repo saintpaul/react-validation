@@ -1,5 +1,10 @@
 # Change Log
 
+
+## 2.4.2
+**technical improvements**
+- Add an "input-wrapper" to correctly display icon 
+
 ## 2.4.1
 **technical improvements**
 - Refactor "label" feature by adding CSS classes and change it's position

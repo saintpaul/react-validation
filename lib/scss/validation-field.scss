@@ -20,7 +20,6 @@ $validation-field-label-height: 20px !default;
 $validation-field-label-margin-bottom: 2px;
 $validation-field-icon-z-index: 3 !default;
 $validation-field-icon-top: 11px !default;
-$validation-field-with-label-icon-top: $validation-field-icon-top + $validation-field-label-height + $validation-field-label-margin-bottom !default;
 $validation-field-icon-right: 10px !default;
 $validation-field-count-margin: 0 0 16px 0 !default;
 
@@ -73,8 +72,6 @@ $select-input-border-focus: $validation-field-focus;
 }
 
 .validation-field {
-  position: relative;
-
   &:after {
     visibility: hidden;
   }
@@ -117,12 +114,6 @@ $select-input-border-focus: $validation-field-focus;
     }
   }
 
-  &--with-label {
-    .validation-field__icon {
-      top: $validation-field-with-label-icon-top;
-    }
-  }
-
   /**
    * Sub components
    */
@@ -138,11 +129,17 @@ $select-input-border-focus: $validation-field-focus;
     border-left: 0;
   }
 
+  // Input wrapper used to display icon
+  &__input-wrapper {
+    position: relative;
+  }
+
   // Validity icon
   &__icon {
     position: absolute;
+    top: 50%;
     z-index: $validation-field-icon-z-index;
-    top: $validation-field-icon-top;
+    transform: translateY(-50%);
     right: $validation-field-icon-right;
     font-size: $validation-field-icon-font-size;
   }

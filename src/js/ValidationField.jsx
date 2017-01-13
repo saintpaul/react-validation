@@ -227,7 +227,6 @@ class ValidationField extends RefluxComponent {
         "validation-field--success": this.state.isValid,
         "validation-field--with-icons": this.showLabel(), // Hide icon by default field is a Select / checkbox
         "validation-field--with-count": this.showCharsLeft(), // Hide icon by default field is a Select / checkbox
-        "validation-field--with-label": this.showLabel(), // Hide icon by default field is a Select / checkbox
         "validation-field--date-picker": this.isDatePicker(), // Add a different class for date-picker
         "validation-field--checkbox": this.isCheckbox() // Add a different class for checkbox
     });
@@ -288,11 +287,13 @@ class ValidationField extends RefluxComponent {
         };
 
         return (
-            <div className={this.className()} {...tooltipProps}>
+            <div className={this.className()}>
                 { this.showLabel() ? this.renderLabel() : null }
-                { input }
+                <div className="validation-field__input-wrapper" {...tooltipProps}>
+                    { input }
+                    { this.showIcons() ? this.renderIcon() : null }
+                </div>
                 { this.showCharsLeft() ? this.renderCharsLeft() : null }
-                { this.showIcons() ? this.renderIcon() : null }
                 { this.renderError() }
             </div>
         )
