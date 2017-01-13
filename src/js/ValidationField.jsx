@@ -220,12 +220,14 @@ class ValidationField extends RefluxComponent {
 
     showCharsLeft = () => this.props.showCharsLeft;
     showIcons = () => this.props.showIcons && !this.isSelect() && !this.isCheckbox();
+    showLabel = () => this.props.label;
 
     className = () => classnames("validation-field", this.props.className, {
         "validation-field--error": this.state.error,
         "validation-field--success": this.state.isValid,
-        "validation-field--with-icons": this.showIcons(), // Hide icon by default field is a Select / checkbox
+        "validation-field--with-icons": this.showLabel(), // Hide icon by default field is a Select / checkbox
         "validation-field--with-count": this.showCharsLeft(), // Hide icon by default field is a Select / checkbox
+        "validation-field--with-label": this.showLabel(), // Hide icon by default field is a Select / checkbox
         "validation-field--date-picker": this.isDatePicker(), // Add a different class for date-picker
         "validation-field--checkbox": this.isCheckbox() // Add a different class for checkbox
     });
@@ -256,6 +258,10 @@ class ValidationField extends RefluxComponent {
         }
     };
 
+    renderLabel = () => (
+        <label className="validation-field__label" dangerouslySetInnerHTML={{__html: this.props.label }}/>
+    );
+
     render = () => {
         if(!this.getInput() || _.isArray(this.getInput())) {
             console.error(`ValidationField with name '${this.props.name}' need to have exactly one child`);
@@ -270,11 +276,10 @@ class ValidationField extends RefluxComponent {
             this.isDatePicker() ? // Exception for DatePicker
                 { inputProps: _.merge(this.getInput().props.inputProps, { onBlur: this.onBlur }) } : { onBlur: this.onBlur } : {};
 
-        var newProps = _.merge(onChange, onBlur);
+        let newProps = _.merge(onChange, onBlur);
         let input = React.cloneElement(this.getInput(), newProps);
-        let inputWithLabel = <label>{ input } <span dangerouslySetInnerHTML={{__html: this.props.label }}/> </label>;
 
-        var tooltipProps = {
+        let tooltipProps = {
             "data-tip": "",
             "data-for": this.props.name,
             "data-event": "mouseenter touchstart click",
@@ -284,7 +289,8 @@ class ValidationField extends RefluxComponent {
 
         return (
             <div className={this.className()} {...tooltipProps}>
-                { this.props.label ? inputWithLabel : input }
+                { this.showLabel() ? this.renderLabel() : null }
+                { input }
                 { this.showCharsLeft() ? this.renderCharsLeft() : null }
                 { this.showIcons() ? this.renderIcon() : null }
                 { this.renderError() }

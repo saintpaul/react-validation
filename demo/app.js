@@ -107,7 +107,7 @@ class Demo extends React.Component {
                 <input type="text" value={this.state.spell} onChange={this.onChangeSpell}/>
             </ValidationField>
             <label>Avatar URL : (should starts with 'http://')</label>
-            <ValidationField name="avatarUrl" rules={{ required: true, type: "string", pattern: /^http:\/\/.*$/ }}>
+            <ValidationField name="avatarUrl" rules={{ required: true, type: "string", pattern: /^http:\/\/.*$/ }} label="Title">
                 <input type="text" value={this.state.avatarUrl} onChange={this.onChangeAvatarUrl}/>
             </ValidationField>
             <ValidationField name="terms" label="General terms" rules={[

@@ -1,5 +1,9 @@
 # Change Log
 
+## 2.4.1
+**technical improvements**
+- Refactor "label" feature by adding CSS classes and change it's position
+
 ## 2.4.0
 **features**
 - Add a way to translate error messages by adding "MESSAGES" key in Configuration file
