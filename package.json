@@ -26,8 +26,7 @@
     "react-dom": "0.14.x || 15.x",
     "react-commons": "git://github.com/saintpaul/react-commons#v2",
     "reflux": "0.4.x",
-    "lodash": "4.x",
-    "react-select": ">=1.0.0-rc.1"
+    "lodash": "4.x"
   },
   "devDependencies": {
     "babel": "^6.3.13",
