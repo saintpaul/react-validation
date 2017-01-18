@@ -105,6 +105,7 @@ class ValidationField extends RefluxComponent {
     isSelect = () => this.getInput().props.validationType === ValidationTypes.REACT_SELECT;
     isDatePicker = () => this.getInput().props.validationType === ValidationTypes.REACT_DATEPICKER;
     isCheckbox = () => this.getInput().props.type === ValidationTypes.CHECKBOX;
+    isTextarea = () => this.getInput().type === ValidationTypes.TEXTAREA;
 
     // TODO RCH : use SUPPORTED_VALUE_PROPS if possible
     getInputValueFromEvent = (e) => {
@@ -232,7 +233,7 @@ class ValidationField extends RefluxComponent {
     };
 
     showCharsLeft = () => this.props.showCharsLeft;
-    showIcons = () => this.props.showIcons && !this.isSelect() && !this.isCheckbox();
+    showIcons = () => this.props.showIcons && !this.isSelect() && !this.isCheckbox() && !this.isTextarea();
     showLabel = () => this.props.label;
 
     className = () => classnames("validation-field", this.props.className, {
@@ -250,8 +251,13 @@ class ValidationField extends RefluxComponent {
 
     renderCharsLeft = () => {
         let value = this.getInputValue();
-        let count = value ? this.hasRuleType("integer") ? value : value.length : 0;
-        let charsLeft = count >= this.getRule("max") ? 0 : this.getRule("max") - count;
+        let count = value && value.length ? value.length : 0;
+        let maxChars = this.getRule("max");
+        let charsLeft = count >= maxChars ? 0 : maxChars - count;
+        let threshold = this.props.charsLeftThreshold ? this.props.charsLeftThreshold(charsLeft, maxChars) : Config.CHARS_LEFT_THRESHOLD(charsLeft, maxChars);
+        // If threshold has been reached, do not display any message about remaining chars
+        if(!threshold)
+            return;
 
         let charsLeftMessage = this.props.charsLeftMessage ? this.props.charsLeftMessage(charsLeft) : Config.COUNT_MESSAGE(charsLeft);
 
@@ -329,7 +335,8 @@ ValidationField.propTypes = {
     onError: React.PropTypes.func,
     triggerOnBlur: React.PropTypes.bool,        // If true, validation will be triggered during onBlur event as well
     showCharsLeft: React.PropTypes.bool,        // If true, display number of remaining chars. A 'max' rule must be set.
-    charsLeftMessage: React.PropTypes.func,     // Message to display when 'showCharsLeft' property is true
+    charsLeftMessage: React.PropTypes.func,     // Message to display when 'showCharsLeft' property is true (can be configured as well in Config.COUNT_MESSAGE)
+    charsLeftThreshold: React.PropTypes.func,   // Threshold before displaying chars left message (can be configured as well in Config.CHARS_LEFT_THRESHOLD)
     showIcons: React.PropTypes.bool,            // If true, display an icon according to field's validity
     iconValidClass: React.PropTypes.string,     // Icon class to apply when field is valid (this option can be globally set in Configuration.js as well)
     iconErrorClass: React.PropTypes.string,     // Icon class to apply when field is not valid (this option can be globally set in Configuration.js as well)

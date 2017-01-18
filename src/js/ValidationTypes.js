@@ -2,5 +2,6 @@
 module.exports = {
     REACT_DATEPICKER: "react-datepicker",
     REACT_SELECT: "react-select",
-    CHECKBOX: "checkbox"
+    CHECKBOX: "checkbox",
+    TEXTAREA: "textarea"
 };

@@ -1,6 +1,11 @@
 # Change Log
 
 
+## 3.0.1
+**features**
+- Add support for textarea (display border in colors, do not display icon by default)
+- Add "charsLeftThreshold" prop to display remaining chars message according to a function
+
 ## 3.0.0
 **technical improvements**
 - Defined PeerDependencies and specific lodash require instead of global lodash 

@@ -75,7 +75,7 @@ class Demo extends React.Component {
             </ValidationField>
             <label>Description (default rule, trigger on blur)</label>
             <ValidationField name="description" triggerOnBlur>
-                <input type="text" value={this.state.description} onChange={this.onChangeDescription}/>
+                <textarea value={this.state.description} onChange={this.onChangeDescription} rows={3}/>
             </ValidationField>
             <label>German (huge error message)</label>
             <ValidationField name="german" rules={{ required: true, message: "Das Passwort muss aus mind. 8 Zeichen bestehen und sollte einen Buchstaben sowie eine Ziffer enthalten."}}>
