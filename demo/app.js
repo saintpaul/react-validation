@@ -26,7 +26,9 @@ class Demo extends React.Component {
             level: "",
             spell: "",
             avatarUrl: "",
-            terms: false
+            terms: false,
+            name1: "",
+            nickname1: ""
         }
     }
 
@@ -41,11 +43,19 @@ class Demo extends React.Component {
     onChangeSpell = (value) => this.setState({ spell: value });
     onChangeAvatarUrl = (value) => this.setState({ avatarUrl : value });
     onChangeTerms = (value) => this.setState({ terms: value });
+    onChangeName1 = (value) => this.setState({ name1: value });
+    onChangeNickname1 = (value) => this.setState({ nickname1: value });
 
     onSubmit = (errors) => {
         // For debugging only
-        //let displayErrors = errors ? JSON.stringify(errors) : "No errors";
-        //window.alert(`Form errors : ${displayErrors}`);
+        // let displayErrors = errors ? JSON.stringify(errors) : "No errors";
+        // console.log("Form errors : ", errors);
+    };
+
+    onSubmitGroup1 = (errors) => {
+        // For debugging only
+        // let displayErrors = errors ? JSON.stringify(errors) : "No errors";
+        // console.log("Group 1 errors : ", errors);
     };
 
     validateSpell = (val, callback) => {
@@ -117,6 +127,15 @@ class Demo extends React.Component {
                 <input type="checkbox" checked={this.state.terms} onChange={this.onChangeTerms}/>
             </ValidationField>
             <ValidationSubmit onSuccess={this.onSubmit} className="expand">SUBMIT</ValidationSubmit>
+            <br/>
+            <h3>Validation with groups</h3>
+            <ValidationField group="group1" name="name1">
+                <input type="text" value={this.state.name1} onChange={this.onChangeName1}/>
+            </ValidationField>
+            <ValidationField group="group1" name="nickname1">
+                <input type="text" value={this.state.nickname1} onChange={this.onChangeNickname1}/>
+            </ValidationField>
+            <ValidationSubmit group="group1" onSuccess={this.onSubmitGroup1} className="expand">SUBMIT GROUP</ValidationSubmit>
         </div>
     );
 }

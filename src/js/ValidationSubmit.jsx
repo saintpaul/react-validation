@@ -2,7 +2,6 @@ const React = require('react');
 const { RefluxComponent } = require("react-commons");
 const _clone = require('lodash/clone');
 const _merge = require('lodash/merge');
-const _isEmpty = require('lodash/isEmpty');
 
 const ValidationStore = require('./stores/ValidationStore');
 
@@ -24,19 +23,23 @@ class ValidationSubmit extends RefluxComponent {
         delete newProps.onSuccess;
         delete newProps.renderFactory;
         delete newProps.errorMessage;
+        delete newProps.group;
 
         return newProps;
     };
 
-    onSuccess = (errors) => {
-        this.setState({ hasError: !_isEmpty(errors) });
-        this.props.onSuccess(errors);
+    onSuccess = ({errors, group}) => {
+        if(group === this.props.group) {
+            let hasErrors = errors && errors.length > 0;
+            this.setState({ hasError: hasErrors });
+            this.props.onSuccess(hasErrors ? errors : undefined);
+        }
     };
 
     submit = (e) => {
         e.preventDefault();
         this.props.onClick();
-        ValidationStore.validateAllFields();
+        ValidationStore.validateAllFields(this.props.group);
 
         //Case where a form has dynamic field and suddenly has no field to validate but need to be submitted
         if(Object.keys(ValidationStore.fields).length === 0)
@@ -64,6 +67,7 @@ ValidationSubmit.defaultProps = {
 };
 
 ValidationSubmit.propTypes = {
+    group:          React.PropTypes.string,              // If set, it will only validate all fields that belongs to this group
     onClick:        React.PropTypes.func,
     onSuccess:      React.PropTypes.func.isRequired,
     renderFactory:  React.PropTypes.func,

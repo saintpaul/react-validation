@@ -80,7 +80,7 @@ class ValidationField extends RefluxComponent {
                 rules = _merge({ required: true, whitespace: true, type: "string", message: this.errorMessage }, rules);
             }
             // When component is mounted, add it to ValidationStore so it must be able to validate this particular field
-            ValidationStore.addField(this.props.name, rules);
+            ValidationStore.addField(this.props.name, rules, this.props.group);
         } else {
             console.error(`Field with name '${this.props.name}' should have one of these props : ${_keys(SUPPORTED_VALUE_PROPS)}`)
         }
@@ -132,7 +132,7 @@ class ValidationField extends RefluxComponent {
     };
 
     onChange = (e) => this._onChange(e, this.getInputOnChange());
-    onBlur = (e) => this._onChange(this.getInputValue(), this.getInputOnBlur()); // Event blur will not return any target value so we return input value directly
+    onBlur = () => this._onChange(this.getInputValue(), this.getInputOnBlur()); // Event blur will not return any target value so we return input value directly
 
     validate = (inputValue, callback = () => { } ) => {
         // Trigger validation on others fields if needed
@@ -222,8 +222,10 @@ class ValidationField extends RefluxComponent {
             return inputValue;
     };
 
-    forceValidate = () => {
-        this.validate(this.convertValue(this.getInputValue()));
+    forceValidate = (group) => {
+        // Validate current field only if it belongs to asked group
+        if(this.props.group === group)
+            this.validate(this.convertValue(this.getInputValue()));
     };
 
     forceValidateFromFields = (fieldNames/*:array*/) => {
@@ -329,6 +331,7 @@ ValidationField.defaultProps = {
 
 ValidationField.propTypes = {
     name: React.PropTypes.string.isRequired,
+    group: React.PropTypes.string,              // If set, this field will be isolated into a "group" of fields
     label: React.PropTypes.string,
     rules: React.PropTypes.oneOfType([ React.PropTypes.arrayOf(React.PropTypes.object), React.PropTypes.object ]).isRequired, // List of rules, see https://github.com/tmpfs/async-validate#rules
     triggerFields: React.PropTypes.oneOfType([ React.PropTypes.array, React.PropTypes.string ]), // Field or list of fields for which validation should be triggered when this component is changing

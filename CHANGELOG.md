@@ -1,5 +1,10 @@
 # Change Log
 
+## 3.1.0
+**features**
+- Add support for "group". 
+Some fields can be attached to a group, which means they will be validated together.
+It also means we can have several groups in the same form, to have a fine-grained validation. 
 
 ## 3.0.1
 **features**
