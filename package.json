@@ -60,7 +60,7 @@
     "lodash": "4.x",
     "moment": "2.x",
     "react": "15.x",
-    "react-commons": "git://github.com/saintpaul/react-commons#v2",
+    "react-commons": "git://github.com/saintpaul/react-commons",
     "react-dom": "15.x",
     "react-select": ">=1.0.0-rc.2",
     "reflux": "0.4.x",
