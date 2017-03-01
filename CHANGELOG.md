@@ -1,5 +1,9 @@
 # Change Log
 
+## 3.1.2.
+**technical improvements**
+- Add release script
+
 ## 3.1.0
 **features**
 - Add support for "group". 

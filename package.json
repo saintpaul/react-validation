@@ -4,7 +4,10 @@
   "description": "ReactJs validation component",
   "main": "./lib/js/index.js",
   "scripts": {
-    "build": "./build.sh"
+    "prebuild": "npm i",
+    "build": "./build.sh",
+    "prerelease": "./build.sh",
+    "release": "./release.sh"
   },
   "repository": {
     "type": "git",
