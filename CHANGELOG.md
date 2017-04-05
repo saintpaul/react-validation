@@ -1,5 +1,9 @@
 # Change Log
 
+## 3.2.0.
+**technical improvements**
+- No more automatic magic behavior for react-select-wrapper. Now, you need to specify showIcons={false}.
+
 ## 3.1.2.
 **technical improvements**
 - Add release script

@@ -3,7 +3,7 @@ const ReactDom = require('react-dom');
 const ValidationField = require('../src/js/ValidationField');
 const ValidationSubmit = require('../src/js/ValidationSubmit');
 const Configuration = require("../src/js/Configuration");
-const CustomSelect = require("./CustomSelect");
+const Select = require("react-select-wrapper");
 // Override configuration
 // Configuration.ICON_ERROR_CLASS = "fa fa-bus";
 // Configuration.MESSAGES.whitespace = "This field is required !!!";
@@ -104,8 +104,8 @@ class Demo extends React.Component {
                 <input type="text" value={this.state.citation} onChange={this.onChangeCitation}/>
             </ValidationField>
             <label>Age (number, min 18, no icons by default) : </label>
-            <ValidationField name="age"  rules={{ required: true, type: "number", min: 18 }}>
-                <CustomSelect value={this.state.age} onChange={this.onChangeAge} options={[16, 17, 18, 19, 20, 21, 22, 23, 24, 25 ]}/>
+            <ValidationField name="age"  rules={{ required: true, type: "number", min: 18 }} showIcons={false}>
+                <Select value={this.state.age} onChange={this.onChangeAge} options={[16, 17, 18, 19, 20, 21, 22, 23, 24, 25 ]}/>
             </ValidationField>
             <br/>
             <label>Level (number, min 1) : </label>

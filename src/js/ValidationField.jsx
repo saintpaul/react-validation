@@ -102,7 +102,6 @@ class ValidationField extends RefluxComponent {
     getInputOnBlur = () => this.getInput().props.onBlur;
     getRule = (rule) => _get(this.props.rules, rule) || _get(_find(this.props.rules, (r) => _has(r, rule)), rule);
     hasRuleType = (ruleType) => _find(this.props.rules, (rule) => rule === ruleType || rule.type === ruleType);
-    isSelect = () => this.getInput().props.validationType === ValidationTypes.REACT_SELECT;
     isDatePicker = () => this.getInput().props.validationType === ValidationTypes.REACT_DATEPICKER;
     isCheckbox = () => this.getInput().props.type === ValidationTypes.CHECKBOX;
     isTextarea = () => this.getInput().type === ValidationTypes.TEXTAREA;
@@ -235,7 +234,7 @@ class ValidationField extends RefluxComponent {
     };
 
     showCharsLeft = () => this.props.showCharsLeft;
-    showIcons = () => this.props.showIcons && !this.isSelect() && !this.isCheckbox() && !this.isTextarea();
+    showIcons = () => this.props.showIcons && !this.isCheckbox() && !this.isTextarea();
     showLabel = () => this.props.label;
 
     className = () => classnames("validation-field", this.props.className, {
