@@ -34,7 +34,6 @@
     "lodash": "4.x"
   },
   "devDependencies": {
-    "babel": "^6.3.13",
     "babel-cli": "^6.3.13",
     "babel-eslint": "6.1.0",
     "babel-plugin-transform-class-properties": "6.3.13",
