@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.0
+**technical improvments**
+- Upgrade Reflux
+- Use `sp-react-commons` from npm instead of `react-commons` from github
+- Use `PropTypes` from `prop-types` and not `React.PropTypes`
+
 ## 3.2.0.
 **technical improvements**
 - No more automatic magic behavior for react-select-wrapper. Now, you need to specify showIcons={false}.

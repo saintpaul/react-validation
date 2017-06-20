@@ -1,4 +1,5 @@
 const React = require('react');
+const PropTypes = require('prop-types');
 const classnames = require("classnames");
 const _cloneDeep = require('lodash/cloneDeep');
 const _findIndex = require('lodash/findIndex');
@@ -15,7 +16,7 @@ const _isUndefined = require('lodash/isUndefined');
 
 
 
-const { RefluxComponent } = require("react-commons");
+const { RefluxComponent } = require("sp-react-commons");
 const Tooltip = require("react-tooltip");
 
 const ValidationUtils = require('./utils/ValidationUtils');
@@ -48,8 +49,8 @@ class ValidationField extends RefluxComponent {
             isValid: undefined
         };
         this._isMounted = false;
-        this.listenToAction(ValidationActions.validateAllFields, this.forceValidate);
-        this.listenToAction(ValidationActions.forceValidateFields, this.forceValidateFromFields);
+        this.listenTo(ValidationActions.validateAllFields, this.forceValidate);
+        this.listenTo(ValidationActions.forceValidateFields, this.forceValidateFromFields);
     }
 
     componentDidMount() {
@@ -329,20 +330,20 @@ ValidationField.defaultProps = {
 };
 
 ValidationField.propTypes = {
-    name: React.PropTypes.string.isRequired,
-    group: React.PropTypes.string,              // If set, this field will be isolated into a "group" of fields
-    label: React.PropTypes.string,
-    rules: React.PropTypes.oneOfType([ React.PropTypes.arrayOf(React.PropTypes.object), React.PropTypes.object ]).isRequired, // List of rules, see https://github.com/tmpfs/async-validate#rules
-    triggerFields: React.PropTypes.oneOfType([ React.PropTypes.array, React.PropTypes.string ]), // Field or list of fields for which validation should be triggered when this component is changing
-    onError: React.PropTypes.func,
-    triggerOnBlur: React.PropTypes.bool,        // If true, validation will be triggered during onBlur event as well
-    showCharsLeft: React.PropTypes.bool,        // If true, display number of remaining chars. A 'max' rule must be set.
-    charsLeftMessage: React.PropTypes.func,     // Message to display when 'showCharsLeft' property is true (can be configured as well in Config.COUNT_MESSAGE)
-    charsLeftThreshold: React.PropTypes.func,   // Threshold before displaying chars left message (can be configured as well in Config.CHARS_LEFT_THRESHOLD)
-    showIcons: React.PropTypes.bool,            // If true, display an icon according to field's validity
-    iconValidClass: React.PropTypes.string,     // Icon class to apply when field is valid (this option can be globally set in Configuration.js as well)
-    iconErrorClass: React.PropTypes.string,     // Icon class to apply when field is not valid (this option can be globally set in Configuration.js as well)
-    className: React.PropTypes.string           // Additional class name
+    name: PropTypes.string.isRequired,
+    group: PropTypes.string,              // If set, this field will be isolated into a "group" of fields
+    label: PropTypes.string,
+    rules: PropTypes.oneOfType([ PropTypes.arrayOf(PropTypes.object), PropTypes.object ]).isRequired, // List of rules, see https://github.com/tmpfs/async-validate#rules
+    triggerFields: PropTypes.oneOfType([ PropTypes.array, PropTypes.string ]), // Field or list of fields for which validation should be triggered when this component is changing
+    onError: PropTypes.func,
+    triggerOnBlur: PropTypes.bool,        // If true, validation will be triggered during onBlur event as well
+    showCharsLeft: PropTypes.bool,        // If true, display number of remaining chars. A 'max' rule must be set.
+    charsLeftMessage: PropTypes.func,     // Message to display when 'showCharsLeft' property is true (can be configured as well in Config.COUNT_MESSAGE)
+    charsLeftThreshold: PropTypes.func,   // Threshold before displaying chars left message (can be configured as well in Config.CHARS_LEFT_THRESHOLD)
+    showIcons: PropTypes.bool,            // If true, display an icon according to field's validity
+    iconValidClass: PropTypes.string,     // Icon class to apply when field is valid (this option can be globally set in Configuration.js as well)
+    iconErrorClass: PropTypes.string,     // Icon class to apply when field is not valid (this option can be globally set in Configuration.js as well)
+    className: PropTypes.string           // Additional class name
 };
 
 module.exports = ValidationField;

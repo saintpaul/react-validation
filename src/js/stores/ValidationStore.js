@@ -6,7 +6,6 @@ const _difference           = require('lodash/difference');
 const _isEmpty              = require('lodash/isEmpty');
 const _reduce               = require('lodash/reduce');
 const Schema                = require("async-validate");
-const messages              = require("async-validate/messages");
 const ValidationActions     = require("../actions/ValidationActions");
 const ValidationUtils       = require("../utils/ValidationUtils");
 const Config                = require("../Configuration");
@@ -32,9 +31,10 @@ Config.MESSAGES.date.invalid = "%s is not a valid date";
  * }
  */
 
-var ValidationStore = Reflux.createStore({
+class ValidationStore extends Reflux.Store {
 
-    init() {
+    constructor() {
+        super();
         this.fields = {};
         this.validateAll = {
             enabled: false, // Will validate all fields if set to true
@@ -42,22 +42,22 @@ var ValidationStore = Reflux.createStore({
             errors: [],     // Final errors to return;
             group: undefined// If set, will validate all fields that belongs to this group
         };
-    },
+    }
 
-    addField(name, rules, group) {
+    addField = (name, rules, group) => {
         // Add field only if it's not already there
         if(this.fields[name]) {
             console.error(`A field with name ${name} already exists, please find another name`);
         } else {
             this.fields[name] = {rules: rules, group: group};
         }
-    },
+    };
 
-    removeField(name) {
+    removeField = (name) => {
         delete this.fields[name];
-    },
+    };
 
-    validateField(name, value, callback = () => {}) {
+    validateField = (name, value, callback = () => {}) => {
         var field = this.fields[name];
         if(!field) {
             console.error(`Cannot find field ${name} into ValidationStore`);
@@ -84,9 +84,9 @@ var ValidationStore = Reflux.createStore({
                 callback(errors); // Pass potential errors to callback
             });
         }
-    },
+    };
 
-    validateAllFields(group) {
+    validateAllFields = (group) => {
         this.validateAll = {
             enabled: true,
             fields: {},
@@ -94,31 +94,31 @@ var ValidationStore = Reflux.createStore({
             group: group
         };
         ValidationActions.validateAllFields(group);
-    },
+    };
 
-    _getSchema(fieldName) {
+    _getSchema = (fieldName) => {
         return new Schema({
             type: "object",
             fields: { [fieldName]: this.fields[fieldName].rules }
         });
-    },
+    };
 
-    _getValidateOptions() {
+    _getValidateOptions = () => {
         return {
             bail: true, // Stop validation when the first error is encountered
             messages: Config.MESSAGES
         };
-    },
+    };
 
-    _getGroupFields(group) {
+    _getGroupFields = (group) => {
         return _reduce(this.fields, (groupFields, field, fieldName) => {
             if(field.group === group)
                 groupFields.push(fieldName);
             return groupFields;
         }, []);
-    },
+    };
 
-    _validateField(name, error) {
+    _validateField = (name, error) => {
         // Put a flag to true to say that this field has been validated
         this.validateAll.fields[name] = true;
         if (error) {
@@ -134,8 +134,8 @@ var ValidationStore = Reflux.createStore({
                 group: this.validateAll.group
             });
         }
-    }
+    };
 
-});
+}
 
-module.exports = ValidationStore;
+module.exports = new ValidationStore();

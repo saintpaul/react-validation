@@ -1,5 +1,6 @@
 const React = require('react');
-const { RefluxComponent } = require("react-commons");
+const PropTypes = require('prop-types');
+const { RefluxComponent } = require("sp-react-commons");
 const _clone = require('lodash/clone');
 const _merge = require('lodash/merge');
 
@@ -14,7 +15,7 @@ class ValidationSubmit extends RefluxComponent {
         this.state = {
             hasError: false
         };
-        this.listenToStore(ValidationStore, this.onSuccess)
+        this.listenTo(ValidationStore, this.onSuccess)
     }
 
     _cleanProps = () => {
@@ -67,11 +68,11 @@ ValidationSubmit.defaultProps = {
 };
 
 ValidationSubmit.propTypes = {
-    group:          React.PropTypes.string,              // If set, it will only validate all fields that belongs to this group
-    onClick:        React.PropTypes.func,
-    onSuccess:      React.PropTypes.func.isRequired,
-    renderFactory:  React.PropTypes.func,
-    errorMessage:   React.PropTypes.string
+    group:          PropTypes.string,              // If set, it will only validate all fields that belongs to this group
+    onClick:        PropTypes.func,
+    onSuccess:      PropTypes.func.isRequired,
+    renderFactory:  PropTypes.func,
+    errorMessage:   PropTypes.string
 };
 
 module.exports = ValidationSubmit;
