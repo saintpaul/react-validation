@@ -1,6 +1,6 @@
 {
   "name": "react-validation",
-  "version": "3.2.0",
+  "version": "3.2.1",
   "description": "ReactJs validation component",
   "main": "./lib/js/index.js",
   "scripts": {
@@ -69,8 +69,7 @@
     "reflux": "0.4.x",
     "run-sequence": "~0.3.5",
     "vinyl-source-stream": "~0.1.1",
-    "watchify": "~2.3.0",
-    "jquery": "2.x"
+    "watchify": "~2.3.0"
   },
   "eslintConfig": {
     "globals": {
