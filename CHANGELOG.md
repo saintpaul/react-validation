@@ -1,5 +1,9 @@
 # Change Log
 
+## 4.1.0
+**technical improvments**
+- Support React 16
+
 ## 4.0.0
 **technical improvments**
 - Upgrade Reflux
