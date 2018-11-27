@@ -1,6 +1,6 @@
 {
   "name": "react-validation",
-  "version": "4.1.0",
+  "version": "4.2.0",
   "description": "ReactJs validation component",
   "main": "./lib/js/index.js",
   "scripts": {
@@ -47,6 +47,7 @@
     "eslint-friendly-formatter": "^2.0.5",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-react": "^5.2.2",
+    "event-stream": "3.3.4",
     "gulp": "~3.9.1",
     "gulp-concat": "~2.3.4",
     "gulp-connect": "2.2.0",

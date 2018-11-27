@@ -1,5 +1,9 @@
 # Change Log
 
+## 4.2.0
+**security improvements**
+- Fix version of 'event-stream' to 3.3.4
+
 ## 4.1.0
 **technical improvments**
 - Support React 16
