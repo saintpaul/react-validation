@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.2.0
+**security improvements**
+- Fix version of 'event-stream' to 3.3.4
+
 ## 1.1.0
 **technical improvements**
 - Remove warning in the console (bsStyle invalid prop)

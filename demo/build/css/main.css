@@ -1,0 +1,110 @@
+.demo {
+  max-width: 400px;
+  padding: 20px; }
+
+.validation-field {
+  /**
+   * States
+   */
+  /**
+   * Sub components
+   */ }
+  .validation-field:after {
+    visibility: hidden; }
+  .validation-field--error input,
+  .validation-field--error input[type="text"],
+  .validation-field--error input[type="password"],
+  .validation-field--error input[type="date"],
+  .validation-field--error input[type="email"],
+  .validation-field--error input[type="number"],
+  .validation-field--error input[type="search"],
+  .validation-field--error textarea,
+  .validation-field--error select {
+    border: 2px solid rgba(255, 0, 0, 0.6); }
+    .validation-field--error input:focus,
+    .validation-field--error input[type="text"]:focus,
+    .validation-field--error input[type="password"]:focus,
+    .validation-field--error input[type="date"]:focus,
+    .validation-field--error input[type="email"]:focus,
+    .validation-field--error input[type="number"]:focus,
+    .validation-field--error input[type="search"]:focus,
+    .validation-field--error textarea:focus,
+    .validation-field--error select:focus {
+      border: 2px solid #999; }
+  .validation-field--error .Select-control {
+    border: 2px solid rgba(255, 0, 0, 0.6); }
+  .validation-field--error .validation-field__icon {
+    color: red; }
+  .validation-field--error.validation-field--checkbox label, .validation-field--error.validation-field--checkbox a {
+    color: red; }
+  .validation-field--success input,
+  .validation-field--success input[type="text"],
+  .validation-field--success input[type="password"],
+  .validation-field--success input[type="date"],
+  .validation-field--success input[type="email"],
+  .validation-field--success input[type="number"],
+  .validation-field--success input[type="search"],
+  .validation-field--success textarea,
+  .validation-field--success select {
+    border: 1px solid rgba(0, 128, 0, 0.3); }
+    .validation-field--success input:focus,
+    .validation-field--success input[type="text"]:focus,
+    .validation-field--success input[type="password"]:focus,
+    .validation-field--success input[type="date"]:focus,
+    .validation-field--success input[type="email"]:focus,
+    .validation-field--success input[type="number"]:focus,
+    .validation-field--success input[type="search"]:focus,
+    .validation-field--success textarea:focus,
+    .validation-field--success select:focus {
+      border: 1px solid #999; }
+  .validation-field--success .Select-control {
+    border: 1px solid rgba(0, 128, 0, 0.3); }
+  .validation-field--success .validation-field__icon {
+    color: green; }
+  .validation-field--date-picker:after {
+    right: 52px; }
+  .validation-field--with-icons:after {
+    visibility: visible; }
+  .validation-field--with-icons input, .validation-field--with-icons input[type="text"] {
+    padding-right: 32px; }
+  .validation-field .Select-control input {
+    border: 0;
+    outline: none; }
+  .validation-field .input-group-addon {
+    border-left: 0; }
+  .validation-field__input-wrapper {
+    position: relative; }
+  .validation-field__icon {
+    position: absolute;
+    top: 50%;
+    z-index: 3;
+    transform: translateY(-50%);
+    right: 10px;
+    font-size: 16px; }
+  .validation-field__error-message {
+    margin: -3px 0 3px 0;
+    font-size: 14px;
+    color: red; }
+  .validation-field__tooltip.__react_component_tooltip.type-dark {
+    background-color: #414A55;
+    border-radius: 0;
+    padding: 8px 12px;
+    font-size: 14px;
+    max-width: 300px;
+    text-align: center; }
+    .validation-field__tooltip.__react_component_tooltip.type-dark.place-top:after {
+      border-top-color: #414A55; }
+    .validation-field__tooltip.__react_component_tooltip.type-dark.show {
+      opacity: 1; }
+  .validation-field__chars-left {
+    font-size: 14px;
+    margin: -16px 0 16px 0; }
+  .validation-field__label {
+    height: 20px;
+    margin-bottom: 2px; }
+
+.validation-submit__error {
+  color: red;
+  text-align: center; }
+
+/*# sourceMappingURL=main.css.map */
