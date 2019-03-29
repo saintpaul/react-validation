@@ -1,5 +1,9 @@
 # Change Log
 
+## 4.3.1
+**technical improvments**
+- Use latest version of `sp-react-commons`
+
 ## 4.3.0
 **technical improvments**
 - Support Gulp 4
