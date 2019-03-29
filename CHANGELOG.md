@@ -1,5 +1,10 @@
 # Change Log
 
+## 4.3.0
+**technical improvments**
+- Support Gulp 4
+- Support Babel 7
+
 ## 4.2.0
 **security improvements**
 - Fix version of 'event-stream' to 3.3.4
