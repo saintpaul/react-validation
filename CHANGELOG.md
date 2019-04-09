@@ -1,5 +1,8 @@
 # Change Log
 
+## 3.2.2
+- Update release script : no need to pass a "v" before version number when releasing
+
 ## 3.2.1
 **technical improvements**
 - Remove jQuery from package.json
