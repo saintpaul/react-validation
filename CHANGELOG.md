@@ -1,5 +1,9 @@
 # Change Log
 
+## 4.3.2
+**bug fixes**
+- Show mobile/tablet error message as html
+
 ## 4.3.1
 **technical improvments**
 - Use latest version of `sp-react-commons`
