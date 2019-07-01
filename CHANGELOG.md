@@ -1,11 +1,11 @@
 # Change Log
 
 ## 3.2.3
-- Update release script : no need to pass a "v" before version number when releasing
-
-## 3.2.3
 **bug fixes**
 - Show mobile/tablet error message as html
+
+## 3.2.2
+- Update release script : no need to pass a "v" before version number when releasing
 
 ## 3.2.1
 **technical improvements**
