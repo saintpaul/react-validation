@@ -14,8 +14,6 @@ $validation-field-tooltip-font-size: 16px !default;
 $validation-field-icon-font-size: 16px !default;
 $validation-field-count-font-size: 14px !default;
 
-$validation-field-label-height: 20px !default;
-
 // Others
 $validation-field-label-margin-bottom: 2px;
 $validation-field-icon-z-index: 3 !default;
@@ -102,6 +100,18 @@ $select-input-border-focus: $validation-field-focus;
     }
   }
 
+  // Exception for checkbox
+  &--checkbox {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    align-items: center;
+
+    input[type="checkbox"] {
+      margin: 0 14px 0 0;
+    }
+  }
+
   /**
    * Sub components
    */
@@ -161,7 +171,6 @@ $select-input-border-focus: $validation-field-focus;
   }
 
   &__label {
-    height: $validation-field-label-height;
     margin-bottom: $validation-field-label-margin-bottom;
   }
 

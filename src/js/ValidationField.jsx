@@ -279,7 +279,7 @@ class ValidationField extends RefluxComponent {
     };
 
     renderLabel = () => (
-        <label className="validation-field__label" dangerouslySetInnerHTML={{__html: this.props.label }}/>
+        <label className="validation-field__label" dangerouslySetInnerHTML={{__html: this.props.label }} htmlFor={this.props.name}/>
     );
 
     render = () => {
@@ -308,15 +308,18 @@ class ValidationField extends RefluxComponent {
         };
 
         return (
-            <div className={this.className()}>
-                { this.showLabel() ? this.renderLabel() : null }
-                <div className="validation-field__input-wrapper" {...tooltipProps}>
-                    { input }
-                    { this.showIcons() ? this.renderIcon() : null }
+            <>
+                <div className={this.className()}>
+                    { this.showLabel() ? this.renderLabel() : null }
+                    <div className="validation-field__input-wrapper" {...tooltipProps}>
+                        { input }
+                        { this.showIcons() ? this.renderIcon() : null }
+                    </div>
+                    { this.showCharsLeft() ? this.renderCharsLeft() : null }
+                    { !this.isCheckbox() ? this.renderError() : null }
                 </div>
-                { this.showCharsLeft() ? this.renderCharsLeft() : null }
-                { this.renderError() }
-            </div>
+                { this.isCheckbox() ? this.renderError() : null}
+            </>
         )
     };
 }

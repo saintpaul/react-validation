@@ -1,5 +1,10 @@
 # Change Log
 
+
+## 4.3.3
+**bug fixes**
+- Improve checkbox and label rendering
+
 ## 4.3.2
 **bug fixes**
 - Show mobile/tablet error message as html
