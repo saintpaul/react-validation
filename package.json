@@ -1,6 +1,6 @@
 {
   "name": "react-validation",
-  "version": "4.3.3",
+  "version": "4.3.4",
   "description": "ReactJs validation component",
   "main": "./lib/js/index.js",
   "scripts": {
