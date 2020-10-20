@@ -15,7 +15,6 @@ $validation-field-icon-font-size: 16px !default;
 $validation-field-count-font-size: 14px !default;
 
 // Others
-$validation-field-label-margin-bottom: 2px;
 $validation-field-icon-z-index: 3 !default;
 $validation-field-icon-top: 11px !default;
 $validation-field-icon-right: 10px !default;
@@ -168,10 +167,6 @@ $select-input-border-focus: $validation-field-focus;
   &__chars-left {
     font-size: $validation-field-count-font-size;
     margin: $validation-field-count-margin;
-  }
-
-  &__label {
-    margin-bottom: $validation-field-label-margin-bottom;
   }
 
 }

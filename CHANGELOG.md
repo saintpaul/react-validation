@@ -1,5 +1,8 @@
 # Change Log
 
+## 4.3.4
+**bug fixes**
+- Improve label rendering
 
 ## 4.3.3
 **bug fixes**
